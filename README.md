@@ -1,8 +1,10 @@
-# 2025-DNN-movie-ASD
-Project Pipeline Overview
+# Project Pipeline Overview
+
 This repository contains scripts for training and analyzing the DualPathNet (stDNN) model for ASD vs TDC classification using movie-viewing fMRI paradigms.
 
-Directory Structure
+## Directory Structure
+
+```
 ├── cv_generation/              # Cross-validation index generation
 │   └── generate_cv_indices.py  # QC and stratified 5-fold split (10 random seeds)
 │
@@ -32,37 +34,70 @@ Directory Structure
 │   └── correlate_milpath.py     # Correlate MIL path activations with behavioral scores
 │
 └── README.md                   # This file
-Getting Started
-Install dependencies
+```
 
-pip install -r requirements.txt
-Generate CV indices
+## Getting Started
 
-python cv_generation/generate_cv_indices.py --input harmonized_data.pklz --output cv_splits/
-Train and evaluate model
+1. **Install dependencies**
 
-python training/train_and_ig.py --data harmonized_data.pklz --cv_dir cv_splits/ --out_dir models/
-python training/summarize_metrics.py --results_dir models/ --save_path figures/metrics_summary.png
-python training/stability_cv.py --data harmonized_data.pklz --out_dir stability_results/
-Interpretation & Visualization
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-python interpretation/plot_attention_analysis.py --input models/attention_weights/
-python interpretation/plot_mil_attention.py --input models/mil_attention/
-python interpretation/plot_ig_full_brainmap.py --input models/ig_scores/
-python interpretation/plot_ig_topk_rois.py --input models/ig_scores/
-python interpretation/plot_ig_timepoints.py --input models/ig_time_series/
-python interpretation/plot_frame_performance.py --input models/frame_logits/
-Dimensionality Reduction
+2. **Generate CV indices**
 
-python dimensionality_reduction/umap_tsne_visualization.py --embeddings embeddings.npy --meta metadata.csv
-Stimulus Annotation
+   ```bash
+   python cv_generation/generate_cv_indices.py --input harmonized_data.pklz --output cv_splits/
+   ```
 
-python events_annotation/segment_and_label_emotion.py --video_dir frames/ --out emotion_labels.csv
-python events_annotation/describe_events.py --segments emotion_labels.csv --out descriptions.csv
-python events_annotation/combine_event_annotations.py --inputs emotion_labels.csv descriptions.csv attention_events.csv
-Brain–Behavior Correlation
+3. **Train and evaluate model**
 
-python brain_behavior/correlate_meanpath.py --features meanpath_activations.npy --behavior behavior.csv
-python brain_behavior/correlate_milpath.py --features milpath_activations.npy --behavior behavior.csv
-Configuration
-All script-specific options (e.g., paths, parameters) can be set via argparse flags. Use -h to view usage.
+   ```bash
+   python training/train_and_ig.py --data harmonized_data.pklz --cv_dir cv_splits/ --out_dir models/
+   python training/summarize_metrics.py --results_dir models/ --save_path figures/metrics_summary.png
+   python training/stability_cv.py --data harmonized_data.pklz --out_dir stability_results/
+   ```
+
+4. **Interpretation & Visualization**
+
+   ```bash
+   python interpretation/plot_attention_analysis.py --input models/attention_weights/
+   python interpretation/plot_mil_attention.py --input models/mil_attention/
+   python interpretation/plot_ig_full_brainmap.py --input models/ig_scores/
+   python interpretation/plot_ig_topk_rois.py --input models/ig_scores/
+   python interpretation/plot_ig_timepoints.py --input models/ig_time_series/
+   python interpretation/plot_frame_performance.py --input models/frame_logits/
+   ```
+
+5. **Dimensionality Reduction**
+
+   ```bash
+   python dimensionality_reduction/umap_tsne_visualization.py --embeddings embeddings.npy --meta metadata.csv
+   ```
+
+6. **Stimulus Annotation**
+
+   ```bash
+   python events_annotation/segment_and_label_emotion.py --video_dir frames/ --out emotion_labels.csv
+   python events_annotation/describe_events.py --segments emotion_labels.csv --out descriptions.csv
+   python events_annotation/combine_event_annotations.py --inputs emotion_labels.csv descriptions.csv attention_events.csv
+   ```
+
+7. **Brain–Behavior Correlation**
+
+   ```bash
+   python brain_behavior/correlate_meanpath.py --features meanpath_activations.npy --behavior behavior.csv
+   python brain_behavior/correlate_milpath.py --features milpath_activations.npy --behavior behavior.csv
+   ```
+
+## Configuration
+
+* All script-specific options (e.g., paths, parameters) can be set via `argparse` flags. Use `-h` to view usage.
+
+## Contributions
+
+Please open an issue or submit a pull request for bug fixes or new features.
+
+## License
+
+\[Specify your license here]
