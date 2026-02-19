@@ -1,0 +1,4 @@
+scene_type,scene_index,start_sec,end_sec,emotion,description
+semantic,1,0.0,29.9,a neutral and uneventful moment,TEST_MODE: dummy caption placeholder.
+semantic,2,30.0,59.9,a neutral and uneventful moment,TEST_MODE: dummy caption placeholder.
+semantic,3,60.0,89.9,a neutral and uneventful moment,TEST_MODE: dummy caption placeholder.
