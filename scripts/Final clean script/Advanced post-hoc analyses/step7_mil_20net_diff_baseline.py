@@ -16,7 +16,7 @@ from pathlib import Path
 # Configuration
 TEST_OUTPUT_DIR = os.environ.get("TEST_OUTPUT_DIR", "")
 IG_ROOT = os.path.join(TEST_OUTPUT_DIR, "saved_models") if TEST_OUTPUT_DIR else "saved_models"
-MAPPING_FILE = os.path.join(os.path.dirname(__file__), "..", "..", "..", "assets", "mapping", "subregion_func_network_Yeo_updated (1).csv")
+MAPPING_FILE = os.path.join(os.path.dirname(__file__), "..", "..", "..", "assets", "mapping", "subregion_func_network_Yeo.csv")
 OUT_DIR = "network20_baseline_stats"; os.makedirs(OUT_DIR, exist_ok=True)
 
 NETWORK_NAMES = ["Visual_Cent", "Visual_Peri", "Somatomotor_A", "Somatomotor_B", "DorsalAttn_A", "DorsalAttn_B", "VentralAttn_A", "VentralAttn_B", "Limbic_A", "Limbic_B", "Control_A", "Control_B", "Control_C", "Default_A", "Default_B", "Default_C", "TempPar", "Amygdala_Hipp", "Basal_Ganglia", "Thalamus"]

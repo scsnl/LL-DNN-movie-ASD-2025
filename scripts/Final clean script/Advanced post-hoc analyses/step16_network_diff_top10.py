@@ -21,7 +21,7 @@ TEST_DATA_DIR = os.environ.get("TEST_DATA_DIR", "")
 TEST_OUTPUT_DIR = os.environ.get("TEST_OUTPUT_DIR", "")
 
 OUT_DIR = "network_diff_top10_analysis"; os.makedirs(OUT_DIR, exist_ok=True)
-MAPPING_FILE = os.path.join(os.path.dirname(__file__), "..", "..", "..", "assets", "mapping", "subregion_func_network_Yeo_updated (1).csv")
+MAPPING_FILE = os.path.join(os.path.dirname(__file__), "..", "..", "..", "assets", "mapping", "subregion_func_network_Yeo.csv")
 
 NETWORK_NAMES = {1: "VisCent", 2: "VisPeri", 3: "SomMotA", 4: "SomMotB", 5: "DorsAttnA", 6: "DorsAttnB", 7: "SalVentAttnA", 8: "SalVentAttnB", 9: "LimbicB", 10: "LimbicA", 11: "ContC", 12: "ContA", 13: "ContB", 14: "TempPar", 15: "DefaultC", 16: "DefaultA", 17: "DefaultB", 18: "Amyg/Hipp", 19: "Basal Ganglia", 20: "Thalamus"}
 

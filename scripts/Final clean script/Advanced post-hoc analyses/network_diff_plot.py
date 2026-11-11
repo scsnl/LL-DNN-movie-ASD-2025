@@ -19,7 +19,7 @@ TEST_MODE = os.environ.get("TEST_MODE", "0") == "1"
 TEST_DATA_DIR = os.environ.get("TEST_DATA_DIR", "")
 TEST_OUTPUT_DIR = os.environ.get("TEST_OUTPUT_DIR", "")
 
-MAPPING_FILE = os.path.join(os.path.dirname(__file__), "..", "..", "..", "assets", "mapping", "subregion_func_network_Yeo_updated (1).csv")
+MAPPING_FILE = os.path.join(os.path.dirname(__file__), "..", "..", "..", "assets", "mapping", "subregion_func_network_Yeo.csv")
 
 TASKS = [
     {
