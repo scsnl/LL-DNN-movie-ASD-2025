@@ -42,7 +42,7 @@ CONFIGS = [
     }
 ]
 
-THRESHOLDS = [0.05, 0.10, 0.20, 0.30]
+THRESHOLDS = [0.05]
 
 def get_clusters(attn_csv, tr_start, tr_end):
     if not os.path.exists(attn_csv): return [], []

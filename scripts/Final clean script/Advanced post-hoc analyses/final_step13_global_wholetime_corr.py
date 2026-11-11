@@ -40,7 +40,7 @@ CONFIGS = [
     }
 ]
 
-THRESHOLDS = [0.05, 0.10, 0.20, 0.30]
+THRESHOLDS = [0.05]
 
 def get_top_rois_wholetime(root_dir, percent, label_val=0):
     fold_means = []
