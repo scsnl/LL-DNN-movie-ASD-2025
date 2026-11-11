@@ -1,3 +1,14 @@
 __pycache__/
 *.pyc
 test_outputs/
+
+# outputs written by the scripts (smoke test or real runs)
+scripts/**/figures/
+scripts/**/results/
+scripts/**/ig_group_level_results/
+scripts/**/top_roi_summary/
+scripts/**/correlation_results_global_wholetime_final/
+scripts/**/network20_baseline_stats/
+scripts/**/network_diff_top10_analysis/
+scripts/**/*.csv
+scripts/**/*.png
