@@ -34,7 +34,7 @@ if TEST_MODE:
     print("[TEST_MODE] Skipping heavy frame-level re-training and evaluation.")
     raise SystemExit(0)
 
-# ---------------- Load & Preprocess ----------------
+# Load & Preprocess
 data_path = os.path.join(TEST_DATA_DIR, 'combined_asd_td_movieDM_data.pklz') if TEST_DATA_DIR else './combined_asd_td_movieDM_data.pklz'
 datao = pd.read_pickle(data_path)
 datao = datao[(datao['percentofvolsrepaired'] <= 10) & (datao['mean_fd'] <= 0.5)]
@@ -52,7 +52,7 @@ gender = pd.get_dummies(datao['gender'], dtype=float).values
 age = datao['age'].astype(float).values.reshape(-1, 1)
 meta = np.concatenate([site, gender, age], axis=1)
 
-# ---------------- Model Definition ----------------
+# Model Definition
 class DualPathNet(nn.Module):
     def __init__(self, metadata_dim=6, dropout_rate=0.5):
         super().__init__()
@@ -81,7 +81,7 @@ class DualPathNet(nn.Module):
         mil_out = torch.sum(attn_weights * frame_logits, dim=1)
         return out_mean, mil_out, attn_weights, frame_logits
 
-# ---------------- Lightning Wrapper ----------------
+# Lightning Wrapper
 class DualPathPL(pl.LightningModule):
     def __init__(self, metadata_dim, lr=1e-4, alpha=0.5, dropout_rate=0.5):
         super().__init__()

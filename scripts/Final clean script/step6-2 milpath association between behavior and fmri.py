@@ -67,7 +67,7 @@ def main():
     intersect_timepoints = np.intersect1d(attn_timepoints, ig_timepoints)
 
     if len(intersect_timepoints) < 1:
-        print(" No valid intersecting timepoints found.")
+        print("No valid intersecting timepoints found.")
         if TEST_MODE: return
         exit()
 

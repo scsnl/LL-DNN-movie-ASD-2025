@@ -26,7 +26,7 @@ def main():
     save_path = os.path.join(fig_path, "combined_accuracy_bias_with_events.png")
     os.makedirs(fig_path, exist_ok=True)
 
-    # Dependency check: Load previously generated CSVs
+    # Inputs written by earlier steps
     acc_csv = os.path.join(mil_dir, "mil_accuracy_difference_curve.csv")
     ig_csv = os.path.join(group_dir, "ig_curve_group_mil_topattn.csv")
     attn_csv = os.path.join(fig_path, "attn_significance.csv")

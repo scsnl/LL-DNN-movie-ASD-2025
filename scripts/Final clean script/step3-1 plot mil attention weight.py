@@ -85,7 +85,7 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
     })
     df.to_csv(os.path.join("figures", "attn_significance_mil.csv"), index=False)
 
-    # ---------------- MIL Softmax Confidence ----------------
+    # MIL Softmax Confidence
     probs = softmax(outmean_all, axis=1)
     asd_probs = probs[label_all == 0][:, 0]
     td_probs = probs[label_all == 1][:, 0]

@@ -117,9 +117,9 @@ def main():
     if not results_df.empty:
         results_df = results_df.sort_values(by='partial_p').reset_index(drop=True)
         results_df.to_csv("meanpath_correlation_results_top10roi.csv", index=False)
-        print(" Analysis completed. Results saved to 'meanpath_correlation_results_top10roi.csv'")
+        print("Saved 'meanpath_correlation_results_top10roi.csv'")
     else:
-        print(" No valid correlations found.")
+        print("No valid correlations found.")
 
 if __name__ == "__main__":
     main()

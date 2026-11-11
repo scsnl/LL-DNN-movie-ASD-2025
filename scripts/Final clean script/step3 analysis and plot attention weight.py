@@ -111,7 +111,7 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
     })
     df.to_csv(os.path.join("figures", "attn_significance.csv"), index=False)
 
-    # ---------------- Prediction Confidence Analysis ----------------
+    # Prediction Confidence Analysis
     # Compute probabilities using softmax on final logits
     probs = softmax(outmean_all, axis=1)
     # Extract probability of being ASD (class 0)
