@@ -1,8 +1,10 @@
 # step 2-1 5-fold training and ig.py
 # Provides fit_one_split, eval_on_idx, load_and_preprocess_data for nested CV.
-# github_upload: TEST_MODE uses minimal params (epochs=1) to run flow; DUMMY_MODE skips training.
+# TEST_MODE=1: one epoch on the synthetic data. DUMMY_MODE=1: random outputs, no training.
+# Each fold directory also holds subject_ids.npy (row order of every saved array).
 
 import os
+import sys
 import json
 import warnings
 import numpy as np
@@ -34,11 +36,14 @@ except ImportError:
     IntegratedGradients = None
 
 warnings.filterwarnings("ignore")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from ig_io import save_fold_ids  # noqa: E402
+
 device = torch.device("cuda" if (torch and torch.cuda.is_available() and not TEST_MODE) else "cpu") if torch else "cpu"
 
 
-def load_and_preprocess_data(data_path):
-    """Load data with same QC as step 1. Returns (fmri, meta, labels)."""
+def load_and_preprocess_data(data_path, return_ids=False):
+    """Load data with same QC as step 1. Returns (fmri, meta, labels[, subject_ids])."""
     datao = pd.read_pickle(data_path)
     datao = datao[(datao['percentofvolsrepaired'] <= 10) & (datao['mean_fd'] <= 0.5)]
     shapes = [np.asarray(d).shape for d in datao.data]
@@ -53,6 +58,8 @@ def load_and_preprocess_data(data_path):
     gender = pd.get_dummies(datao['gender'], dtype=float).values
     age = datao['age'].astype(float).values.reshape(-1, 1)
     meta = np.concatenate([site, gender, age], axis=1)
+    if return_ids:
+        return fmri, meta, labels, datao['subject_id'].astype(str).values
     return fmri, meta, labels
 
 
@@ -228,7 +235,7 @@ def main():
         else "combined_asd_td_movieDM_data.pklz"
     )
     base_out = TEST_OUTPUT_DIR if TEST_OUTPUT_DIR else "."
-    fmri, meta, labels = load_and_preprocess_data(data_path)
+    fmri, meta, labels, subject_ids = load_and_preprocess_data(data_path, return_ids=True)
 
     if DUMMY_MODE or pl is None or torch is None:
         print("[INFO] Generating dummy saved_models outputs (no active training).")
@@ -243,6 +250,7 @@ def main():
             Nv, T, R = len(yv), fmri.shape[1], fmri.shape[2]
             np.save(os.path.join(fold_dir, "out_mean.npy"), rng.normal(size=(Nv, 2)).astype(np.float32))
             np.save(os.path.join(fold_dir, "labels.npy"), yv.astype(int))
+            save_fold_ids(fold_dir, subject_ids[val_idx])
             np.save(os.path.join(fold_dir, "attn_weights.npy"), rng.random(size=(Nv, T)).astype(np.float32))
             np.save(os.path.join(fold_dir, "feat_mean.npy"), rng.normal(size=(Nv, 512 + meta.shape[1])).astype(np.float32))
             np.save(os.path.join(fold_dir, "attn_feat.npy"), rng.normal(size=(Nv, 512 + meta.shape[1])).astype(np.float32))
@@ -342,6 +350,7 @@ def main():
 
         np.save(os.path.join(save_dir, "out_mean.npy"), np.array(all_logits))
         np.save(os.path.join(save_dir, "labels.npy"), np.array(all_labels))
+        save_fold_ids(save_dir, subject_ids[val_idx])
         np.save(os.path.join(save_dir, "attn_weights.npy"), np.array(all_attn))
         np.save(os.path.join(save_dir, "feat_mean.npy"), np.array(feat_mean_all))
         np.save(os.path.join(save_dir, "attn_feat.npy"), np.array(attn_feat_all))
