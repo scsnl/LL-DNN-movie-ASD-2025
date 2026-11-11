@@ -15,6 +15,8 @@ Key Features:
 """
 
 import os
+import sys
+from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn.cross_decomposition import CCA
@@ -29,6 +31,9 @@ from itertools import groupby
 from operator import itemgetter
 from tqdm import tqdm
 import warnings
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from ig_io import load_fold_array  # noqa: E402
 
 # Suppress sklearn warnings for cleaner output
 warnings.filterwarnings("ignore")
@@ -122,12 +127,9 @@ def main():
         datao['subject_id'] = datao['subject_id'].astype(str).str.strip().str.lower()
         asd = datao[datao['label'].str.lower()=='asd'].reset_index(drop=True)
         
-        all_ig = []
-        for f in range(5):
-            p = os.path.join(conf['ig_root'], f"fold{f}", "ig_roi_milout.npy")
-            if os.path.exists(p): all_ig.append(np.load(p)[np.load(os.path.join(conf['ig_root'], f"fold{f}", "labels.npy"))==0])
-        if not all_ig: continue
-        ig_asd = np.vstack(all_ig)
+        if not os.path.exists(os.path.join(conf['ig_root'], "fold0", "ig_roi_milout.npy")): continue
+        ig_ids, ig_all, ig_lbl = load_fold_array(conf['ig_root'], "ig_roi_milout.npy", conf['fmri_file'])
+        ig_ids, ig_asd = ig_ids[ig_lbl == 0], ig_all[ig_lbl == 0]
         
         X_list = []
         for clus in clusters[:6]:
@@ -140,7 +142,9 @@ def main():
         behav = pd.read_csv(conf['behavior_file'], low_memory=False)
         behav['Identifiers'] = behav['Identifiers'].astype(str).str.strip().str.lower()
         targets = ["CBCL,CBCL_Total_T", "RBS,RBS_Total", "SRS,SRS_Total_T"]
-        df_all = pd.DataFrame({'subject_id': asd['subject_id']}).join(pd.DataFrame(X, columns=[f'E{i+1}' for i in range(X.shape[1])])).merge(behav[['Identifiers']+targets], left_on='subject_id', right_on='Identifiers', how='inner')
+        feat = pd.DataFrame(X, columns=[f'E{i+1}' for i in range(X.shape[1])])
+        feat.insert(0, 'subject_id', ig_ids)
+        df_all = feat.merge(behav[['Identifiers']+targets], left_on='subject_id', right_on='Identifiers', how='inner')
         df_all = df_all.merge(asd[['subject_id', 'age', 'gender', 'site']], on='subject_id').dropna()
         if len(df_all) < MIN_SUBJECTS: continue
         
