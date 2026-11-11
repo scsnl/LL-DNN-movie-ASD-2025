@@ -15,3 +15,7 @@ captum
 transformers
 scenedetect
 opencv-python
+soundfile
+pyloudnorm
+silero-vad
+imageio-ffmpeg

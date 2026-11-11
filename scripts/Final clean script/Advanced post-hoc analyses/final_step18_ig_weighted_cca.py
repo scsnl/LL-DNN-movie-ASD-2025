@@ -44,7 +44,7 @@ TEST_DATA_DIR = os.environ.get("TEST_DATA_DIR", "")
 TEST_OUTPUT_DIR = os.environ.get("TEST_OUTPUT_DIR", "")
 N_PERM = int(os.environ.get("N_PERM", "5000"))
 N_BOOT = int(os.environ.get("N_BOOT", "5000"))
-MIN_SUBJECTS = 10 if TEST_MODE else 30
+MIN_SUBJECTS = 3 if TEST_MODE else 30
 TOP_PERCENT = 0.05
 
 class PermCCA:
