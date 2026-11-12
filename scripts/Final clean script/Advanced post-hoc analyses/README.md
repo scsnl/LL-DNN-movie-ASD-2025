@@ -12,9 +12,11 @@ Run these scripts from this folder. Fold outputs are read through `../ig_io.py`,
 
 ### Brain-behaviour association
 - `final_step19_ig_only_plsc_totals.py`: PLSC between event-level Neural Saliency Indices and SRS, RBS-R and CBCL total scores. Writes weights and bootstrap ratios.
-- `final_step13_global_wholetime_corr.py`: partial correlations between the Global-path top-5% regions and behavioural scores.
-- `final_step13_mil_cluster_corr_auto.py`: the same partial correlations for the MIL-path event windows.
+- `final_step13_global_wholetime_corr.py`: Global Saliency Index (mean |IG| over the Global-path top-5% regions) and behavioural scores, Segment 2.
+- `final_step13_mil_cluster_corr_auto.py`: event-level Neural Saliency Index and behavioural scores, Segment 2.
 - `final_step18_ig_weighted_cca.py`: CCA between event features and total scores.
+
+Partial correlations adjust for age, sex, site and mean framewise displacement. The Segment 2 scripts read `results/seg2/saved_models` and `results/seg2/figures/attn_significance.csv`; the latter is written by `python "../step3 analysis and plot attention weight.py" results/seg2/saved_models results/seg2/figures`.
 
 ### Yeo network summaries
 - `network_diff_plot.py`, `step7_mil_20net_diff_baseline.py` and `step16_network_diff_top10.py`: group comparisons of ROIs mapped to Yeo networks, using `assets/mapping/subregion_func_network_Yeo.csv`.
