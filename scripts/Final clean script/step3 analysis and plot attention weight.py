@@ -20,7 +20,7 @@ from scipy.stats import ttest_ind
 from scipy.special import softmax
 from statsmodels.stats.multitest import multipletests
 
-def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=0.08):
+def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=0.05, out_dir='figures'):
     """
     Load saved arrays from 5-fold CV and perform statistical comparison of 
     temporal attention profiles.
@@ -51,7 +51,7 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
     outmean_all = np.vstack(outmean_all)
     label_all = np.concatenate(label_all)
 
-    os.makedirs("figures", exist_ok=True)
+    os.makedirs(out_dir, exist_ok=True)
     
     # Split subjects into groups
     attn_asd = attn_all[label_all == 0]
@@ -70,7 +70,7 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
     reject_fdr, pvals_fdr, _, _ = multipletests(pvals, alpha=alpha, method='fdr_bh')
     sig_fdr = reject_fdr
 
-    # Visualization 1: Raw significance (p < 0.05 / custom alpha)
+    # Visualization 1: uncorrected significance
     plt.figure(figsize=(12, 5))
     plt.plot(mean_asd, label='ASD', color='blue', linewidth=2)
     plt.plot(mean_td, label='TD', color='orange', linewidth=2)
@@ -82,7 +82,7 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
     plt.ylabel('Attention Weight')
     plt.legend()
     plt.tight_layout()
-    plt.savefig("figures/attn_profile_raw.png", dpi=300)
+    plt.savefig(os.path.join(out_dir, "attn_profile_raw.png"), dpi=300)
     plt.close()
 
     # Visualization 2: FDR-corrected significance
@@ -96,7 +96,7 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
     plt.ylabel('Attention Weight')
     plt.legend()
     plt.tight_layout()
-    plt.savefig("figures/attn_profile_fdr.png", dpi=300)
+    plt.savefig(os.path.join(out_dir, "attn_profile_fdr.png"), dpi=300)
     plt.close()
 
     # Save statistical results to CSV for event definition
@@ -109,9 +109,9 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
         'sig_raw': sig_raw,
         'sig_fdr': sig_fdr
     })
-    df.to_csv(os.path.join("figures", "attn_significance.csv"), index=False)
+    df.to_csv(os.path.join(out_dir, "attn_significance.csv"), index=False)
 
-    # ---------------- Prediction Confidence Analysis ----------------
+    # Prediction Confidence Analysis
     # Compute probabilities using softmax on final logits
     probs = softmax(outmean_all, axis=1)
     # Extract probability of being ASD (class 0)
@@ -131,7 +131,7 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
     plt.ylabel('Predicted Probability (ASD)')
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.tight_layout()
-    plt.savefig("figures/mean_prob_boxplot.png", dpi=300)
+    plt.savefig(os.path.join(out_dir, "mean_prob_boxplot.png"), dpi=300)
     plt.close()
 
 if __name__ == "__main__":
@@ -139,4 +139,9 @@ if __name__ == "__main__":
     folds = os.environ.get("TEST_OUTPUT_DIR", "")
     folds_root = os.path.join(folds, "saved_models") if folds else "saved_models"
     
-    analyze_attention_and_prediction_from_saved(folds_dir=folds_root)
+    # optional arguments: fold directory and output directory (e.g. a segment run)
+    import sys
+    if len(sys.argv) > 1:
+        folds_root = sys.argv[1]
+    out = sys.argv[2] if len(sys.argv) > 2 else "figures"
+    analyze_attention_and_prediction_from_saved(folds_dir=folds_root, out_dir=out)

@@ -1,0 +1,247 @@
+brainnetome_id,label,hemisphere,system,subnetwork,subnetwork_index,devatlas_id,region,gyrus,anatomical_label,short_label,manual_reassignment
+1,A8m_L,L,DMN,DMN_4,4,21,SFG_L_7_1,SFG,Medial SFG L (A8m),,False
+2,A8m_R,R,SAL,SAL_2,2,5,SFG_R_7_1,SFG,Medial SFG R (A8m),,False
+3,A8dl_L,L,DMN,DMN_3,3,9,SFG_L_7_2,SFG,SFG L (A8dl),,False
+4,A8dl_R,R,CON,CON_3,3,8,SFG_R_7_2,SFG,SFG R (A8dl),,False
+5,A9l_L,L,DMN,DMN_3,3,9,SFG_L_7_3,SFG,SFG L (A9l),,False
+6,A9l_R,R,DMN,DMN_3,3,9,SFG_R_7_3,SFG,SFG R (A9l),,False
+7,A6dl_L,L,ATN,ATN_3,3,15,SFG_L_7_4,SFG,SFG L (A6dl),SFG L,False
+8,A6dl_R,R,SAL,SAL_2,2,5,SFG_R_7_4,SFG,SFG R (A6dl),,False
+9,A6m_L,L,SAL,SAL_2,2,5,SFG_L_7_5,SFG,SMA L (A6m),,False
+10,A6m_R,R,SAL,SAL_2,2,5,SFG_R_7_5,SFG,SMA R (A6m),,False
+11,A9m_L,L,SAL,SAL_3,3,13,SFG_L_7_6,SFG,Medial SFG L (A9m),,False
+12,A9m_R,R,SAL,SAL_3,3,13,SFG_R_7_6,SFG,Medial SFG R (A9m),,False
+13,A10m_L,L,DMN,DMN_3,3,9,SFG_L_7_7,SFG,Medial frontal pole L (A10m),,False
+14,A10m_R,R,DMN,DMN_3,3,9,SFG_R_7_7,SFG,Medial frontal pole R (A10m),,False
+15,A9/46d_L,L,DMN,DMN_3,3,9,MFG_L_7_1,MFG,MFG L (A9/46d),,False
+16,A9/46d_R,R,SAL,SAL_2,2,5,MFG_R_7_1,MFG,MFG R (A9/46d),,False
+17,IFJ_L,L,CON,CON_4,4,20,MFG_L_7_2,MFG,MFG L (IFJ),,False
+18,IFJ_R,R,CON,CON_3,3,8,MFG_R_7_2,MFG,MFG R (IFJ),,False
+19,A46_L,L,CON,CON_2,2,7,MFG_L_7_3,MFG,MFG L (A46),,False
+20,A46_R,R,CON,CON_3,3,8,MFG_R_7_3,MFG,MFG R (A46),,False
+21,A9/46v_L,L,CON,CON_4,4,20,MFG_L_7_4,MFG,MFG L (A9/46v),,False
+22,A9/46v_R,R,CON,CON_3,3,8,MFG_R_7_4,MFG,MFG R (A9/46v),,False
+23,A8vl_L,L,CON,CON_2,2,7,MFG_L_7_5,MFG,MFG L (A8vl),,False
+24,A8vl_R,R,CON,CON_3,3,8,MFG_R_7_5,MFG,MFG R (A8vl),,False
+25,A6vl_L,L,CON,CON_2,2,7,MFG_L_7_6,MFG,MFG L (A6vl),,False
+26,A6vl_R,R,CON,CON_3,3,8,MFG_R_7_6,MFG,MFG R (A6vl),,False
+27,A10l_L,L,CON,CON_2,2,7,MFG_L_7_7,MFG,Lateral frontal pole L (A10l),,False
+28,A10l_R,R,CON,CON_3,3,8,MFG_R_7_7,MFG,Lateral frontal pole R (A10l),,False
+29,A44d_L,L,CON,CON_4,4,20,IFG_L_6_1,IFG,IFG L (A44d),,False
+30,A44d_R,R,CON,CON_4,4,20,IFG_R_6_1,IFG,IFG R (A44d),,False
+31,IFS_L,L,CON,CON_4,4,20,IFG_L_6_2,IFG,IFG L (IFS),,False
+32,IFS_R,R,CON,CON_1,1,6,IFG_R_6_2,IFG,IFG R (IFS),IFS R,False
+33,A45c_L,L,DMN,DMN_4,4,21,IFG_L_6_3,IFG,IFG L (A45c),IFG L,False
+34,A45c_R,R,DMN,DMN_4,4,21,IFG_R_6_3,IFG,IFG R (A45c),,False
+35,A45r_L,L,DMN,DMN_4,4,21,IFG_L_6_4,IFG,IFG L (A45r),,False
+36,A45r_R,R,DMN,DMN_4,4,21,IFG_R_6_4,IFG,IFG R (A45r),,False
+37,A44op_L,L,SAL,SAL_3,3,13,IFG_L_6_5,IFG,IFG L (A44op),,False
+38,A44op_R,R,SAL,SAL_3,3,13,IFG_R_6_5,IFG,IFG R (A44op),,False
+39,A44v_L,L,DMN,DMN_4,4,21,IFG_L_6_6,IFG,IFG L (A44v),,False
+40,A44v_R,R,SAL,SAL_2,2,5,IFG_R_6_6,IFG,IFG R (A44v),,False
+41,A14m_L,L,DMN,DMN_3,3,9,OrG_L_6_1,OrG,Medial OFC L (A14m),,False
+42,A14m_R,R,DMN,DMN_3,3,9,OrG_R_6_1,OrG,Medial OFC R (A14m),,False
+43,A12/47o_L,L,DMN,DMN_3,3,9,OrG_L_6_2,OrG,Lateral OFC L (A12/47o),,False
+44,A12/47o_R,R,CON,CON_3,3,8,OrG_R_6_2,OrG,Lateral OFC R (A12/47o),,False
+45,A11l_L,L,CON,CON_1,1,6,OrG_L_6_3,OrG,Lateral OFC L (A11l),,False
+46,A11l_R,R,CON,CON_3,3,8,OrG_R_6_3,OrG,Lateral OFC R (A11l),lOFC R,False
+47,A11m_L,L,DMN,DMN_1,1,1,OrG_L_6_4,OrG,Medial OFC L (A11m),mOFC L,False
+48,A11m_R,R,DMN,DMN_1,1,1,OrG_R_6_4,OrG,Medial OFC R (A11m),,False
+49,A13_L,L,DMN,DMN_3,3,9,OrG_L_6_5,OrG,Posterior OFC L (A13),,False
+50,A13_R,R,DMN,DMN_3,3,9,OrG_R_6_5,OrG,Posterior OFC R (A13),,False
+51,A12/47l_L,L,DMN,DMN_4,4,21,OrG_L_6_6,OrG,Lateral OFC L (A12/47l),,False
+52,A12/47l_R,R,SAL,SAL_3,3,13,OrG_R_6_6,OrG,Lateral OFC R (A12/47l),,False
+53,A4hf_L,L,SMN,SMN_5,5,22,PrG_L_6_1,PrG,Precentral L (A4hf),,False
+54,A4hf_R,R,SMN,SMN_5,5,22,PrG_R_6_1,PrG,Precentral R (A4hf),,False
+55,A6cdl_L,L,SMN,SMN_4,4,19,PrG_L_6_2,PrG,Precentral L (A6cdl),,False
+56,A6cdl_R,R,SMN,SMN_3,3,17,PrG_R_6_2,PrG,Precentral R (A6cdl),PrCG R,False
+57,A4ul_L,L,SMN,SMN_4,4,19,PrG_L_6_3,PrG,Precentral L (A4ul),,False
+58,A4ul_R,R,SMN,SMN_3,3,17,PrG_R_6_3,PrG,Precentral R (A4ul),,False
+59,A4t_L,L,SMN,SMN_2,2,16,PrG_L_6_4,PrG,Precentral L (A4t),,False
+60,A4t_R,R,SMN,SMN_2,2,16,PrG_R_6_4,PrG,Precentral R (A4t),,False
+61,A4tl_L,L,SAL,SAL_1,1,4,PrG_L_6_5,PrG,Precentral L (A4tl),,False
+62,A4tl_R,R,SAL,SAL_1,1,4,PrG_R_6_5,PrG,Precentral R (A4tl),,False
+63,A6cvl_L,L,ATN,ATN_4,4,18,PrG_L_6_6,PrG,Precentral L (A6cvl),vPMC L,False
+64,A6cvl_R,R,ATN,ATN_4,4,18,PrG_R_6_6,PrG,Precentral R (A6cvl),,False
+65,A1/2/3ll_L,L,SMN,SMN_2,2,16,PCL_L_2_1,PCL,Paracentral L (A1/2/3ll),,False
+66,A1/2/3ll_R,R,SMN,SMN_2,2,16,PCL_R_2_1,PCL,Paracentral R (A1/2/3ll),,False
+67,A4ll_L,L,SMN,SMN_2,2,16,PCL_L_2_2,PCL,Paracentral L (A4ll),,False
+68,A4ll_R,R,SMN,SMN_2,2,16,PCL_R_2_2,PCL,Paracentral R (A4ll),,False
+69,A38m_L,L,DMN,DMN_4,4,21,STG_L_6_1,STG,Temporal pole L (A38m),,False
+70,A38m_R,R,DMN,DMN_1,1,1,STG_R_6_1,STG,Temporal pole R (A38m),,False
+71,A41/42_L,L,SMN,SMN_1,1,3,STG_L_6_2,STG,Auditory cortex L (A41/42),,False
+72,A41/42_R,R,SMN,SMN_1,1,3,STG_R_6_2,STG,Auditory cortex R (A41/42),,False
+73,TE1.0/TE1.2_L,L,SMN,SMN_1,1,3,STG_L_6_3,STG,Auditory cortex L (TE1.0/TE1.2),,False
+74,TE1.0/TE1.2_R,R,SMN,SMN_1,1,3,STG_R_6_3,STG,Auditory cortex R (TE1.0/TE1.2),,False
+75,A22c_L,L,SMN,SMN_1,1,3,STG_L_6_4,STG,STG L (A22c),,False
+76,A22c_R,R,SMN,SMN_1,1,3,STG_R_6_4,STG,STG R (A22c),STG R,False
+77,A38l_L,L,DMN,DMN_4,4,21,STG_L_6_5,STG,Temporal pole L (A38l),,False
+78,A38l_R,R,DMN,DMN_4,4,21,STG_R_6_5,STG,Temporal pole R (A38l),,False
+79,A22r_L,L,DMN,DMN_4,4,21,STG_L_6_6,STG,STG L (A22r),,False
+80,A22r_R,R,SMN,SMN_1,1,3,STG_R_6_6,STG,STG R (A22r),,False
+81,A21c_L,L,CON,CON_2,2,7,MTG_L_4_1,MTG,MTG L (A21c),,False
+82,A21c_R,R,CON,CON_3,3,8,MTG_R_4_1,MTG,MTG R (A21c),MTG R,False
+83,A21r_L,L,DMN,DMN_4,4,21,MTG_L_4_2,MTG,MTG L (A21r),,False
+84,A21r_R,R,DMN,DMN_4,4,21,MTG_R_4_2,MTG,MTG R (A21r),,False
+85,A37dl_L,L,CON,CON_1,1,6,MTG_L_4_3,MTG,MTG L (A37dl),,False
+86,A37dl_R,R,CON,CON_1,1,6,MTG_R_4_3,MTG,MTG R (A37dl),MTG R,False
+87,aSTS_L,L,DMN,DMN_4,4,21,MTG_L_4_4,MTG,Anterior STS L (aSTS),,False
+88,aSTS_R,R,SMN,SMN_1,1,3,MTG_R_4_4,MTG,Anterior STS R (aSTS),,False
+89,A20iv_L,L,CON,CON_1,1,6,ITG_L_7_1,ITG,ITG L (A20iv),,False
+90,A20iv_R,R,DMN,DMN_2,2,2,ITG_R_7_1,ITG,ITG R (A20iv),,False
+91,A37elv_L,L,CON,CON_4,4,20,ITG_L_7_2,ITG,ITG L (A37elv),,False
+92,A37elv_R,R,VIS,VIS_1,1,10,ITG_R_7_2,ITG,ITG R (A37elv),,False
+93,A20r_L,L,DMN,DMN_4,4,21,ITG_L_7_3,ITG,ITG L (A20r),,False
+94,A20r_R,R,DMN,DMN_4,4,21,ITG_R_7_3,ITG,ITG R (A20r),,False
+95,A20il_L,L,CON,CON_2,2,7,ITG_L_7_4,ITG,ITG L (A20il),,False
+96,A20il_R,R,CON,CON_3,3,8,ITG_R_7_4,ITG,ITG R (A20il),,False
+97,A37vl_L,L,CON,CON_1,1,6,ITG_L_7_5,ITG,ITG L (A37vl),,False
+98,A37vl_R,R,ATN,ATN_2,2,12,ITG_R_7_5,ITG,ITG R (A37vl),,False
+99,A20cl_L,L,CON,CON_2,2,7,ITG_L_7_6,ITG,ITG L (A20cl),ITG L,False
+100,A20cl_R,R,CON,CON_3,3,8,ITG_R_7_6,ITG,ITG R (A20cl),,False
+101,A20cv_L,L,CON,CON_2,2,7,ITG_L_7_7,ITG,ITG L (A20cv),,False
+102,A20cv_R,R,CON,CON_3,3,8,ITG_R_7_7,ITG,ITG R (A20cv),,False
+103,A20rv_L,L,DMN,DMN_2,2,2,FuG_L_3_1,FuG,Fusiform L (A20rv),,False
+104,A20rv_R,R,DMN,DMN_2,2,2,FuG_R_3_1,FuG,Fusiform R (A20rv),,False
+105,A37mv_L,L,VIS,VIS_1,1,10,FuG_L_3_2,FuG,Fusiform L (A37mv),,False
+106,A37mv_R,R,VIS,VIS_1,1,10,FuG_R_3_2,FuG,Fusiform R (A37mv),,False
+107,A37lv_L,L,VIS,VIS_1,1,10,FuG_L_3_3,FuG,Fusiform L (A37lv),,False
+108,A37lv_R,R,VIS,VIS_1,1,10,FuG_R_3_3,FuG,Fusiform R (A37lv),,False
+109,A35/36r_L,L,CON,CON_1,1,6,PhG_L_6_1,PhG,Perirhinal L (A35/36r),,False
+110,A35/36r_R,R,DMN,DMN_2,2,2,PhG_R_6_1,PhG,Perirhinal R (A35/36r),PRC R,False
+111,A35/36c_L,L,DMN,DMN_2,2,2,PhG_L_6_2,PhG,Perirhinal L (A35/36c),,False
+112,A35/36c_R,R,DMN,DMN_2,2,2,PhG_R_6_2,PhG,Perirhinal R (A35/36c),,False
+113,TL_L,L,DMN,DMN_2,2,2,PhG_L_6_3,PhG,Parahippocampal L (TL),,False
+114,TL_R,R,DMN,DMN_2,2,2,PhG_R_6_3,PhG,Parahippocampal R (TL),,False
+115,A28/34_L,L,DMN,DMN_2,2,2,PhG_L_6_4,PhG,Entorhinal L (A28/34),,False
+116,A28/34_R,R,DMN,DMN_2,2,2,PhG_R_6_4,PhG,Entorhinal R (A28/34),,False
+117,TI_L,L,CON,CON_1,1,6,PhG_L_6_5,PhG,Temporal agranular insula L (TI),,False
+118,TI_R,R,CON,CON_1,1,6,PhG_R_6_5,PhG,Temporal agranular insula R (TI),TI R,True
+119,TH_L,L,DMN,DMN_2,2,2,PhG_L_6_6,PhG,Parahippocampal L (TH),,False
+120,TH_R,R,DMN,DMN_2,2,2,PhG_R_6_6,PhG,Parahippocampal R (TH),,False
+121,rpSTS_L,L,DMN,DMN_4,4,21,pSTS_L_2_1,pSTS,Posterior STS L (rpSTS),,False
+122,rpSTS_R,R,DMN,DMN_4,4,21,pSTS_R_2_1,pSTS,Posterior STS R (rpSTS),,False
+123,cpSTS_L,L,DMN,DMN_4,4,21,pSTS_L_2_2,pSTS,Posterior STS L (cpSTS),,False
+124,cpSTS_R,R,SMN,SMN_1,1,3,pSTS_R_2_2,pSTS,Posterior STS R (cpSTS),,False
+125,A7r_L,L,ATN,ATN_3,3,15,SPL_L_5_1,SPL,SPL L (A7r),,False
+126,A7r_R,R,ATN,ATN_3,3,15,SPL_R_5_1,SPL,SPL R (A7r),,False
+127,A7c_L,L,ATN,ATN_2,2,12,SPL_L_5_2,SPL,SPL L (A7c),,False
+128,A7c_R,R,ATN,ATN_2,2,12,SPL_R_5_2,SPL,SPL R (A7c),,False
+129,A5l_L,L,ATN,ATN_4,4,18,SPL_L_5_3,SPL,SPL L (A5l),,False
+130,A5l_R,R,ATN,ATN_4,4,18,SPL_R_5_3,SPL,SPL R (A5l),,False
+131,A7pc_L,L,ATN,ATN_3,3,15,SPL_L_5_4,SPL,SPL L (A7pc),,False
+132,A7pc_R,R,ATN,ATN_3,3,15,SPL_R_5_4,SPL,SPL R (A7pc),SPL R,False
+133,A7ip_L,L,ATN,ATN_2,2,12,SPL_L_5_5,SPL,SPL L (A7ip),,False
+134,A7ip_R,R,ATN,ATN_2,2,12,SPL_R_5_5,SPL,SPL R (A7ip),,False
+135,A39c_L,L,DMN,DMN_2,2,2,IPL_L_6_1,IPL,Angular L (A39c),,False
+136,A39c_R,R,DMN,DMN_2,2,2,IPL_R_6_1,IPL,Angular R (A39c),AG R,False
+137,A39rd_L,L,CON,CON_2,2,7,IPL_L_6_2,IPL,Angular L (A39rd),,False
+138,A39rd_R,R,CON,CON_3,3,8,IPL_R_6_2,IPL,Angular R (A39rd),AG R,False
+139,A40rd_L,L,ATN,ATN_4,4,18,IPL_L_6_3,IPL,Supramarginal L (A40rd),,False
+140,A40rd_R,R,ATN,ATN_4,4,18,IPL_R_6_3,IPL,Supramarginal R (A40rd),,False
+141,A40c_L,L,CON,CON_2,2,7,IPL_L_6_4,IPL,Supramarginal L (A40c),,False
+142,A40c_R,R,CON,CON_3,3,8,IPL_R_6_4,IPL,Supramarginal R (A40c),,False
+143,A39rv_L,L,DMN,DMN_1,1,1,IPL_L_6_5,IPL,Angular L (A39rv),,False
+144,A39rv_R,R,DMN,DMN_2,2,2,IPL_R_6_5,IPL,Angular R (A39rv),,False
+145,A40rv_L,L,SAL,SAL_1,1,4,IPL_L_6_6,IPL,Supramarginal L (A40rv),,False
+146,A40rv_R,R,SAL,SAL_1,1,4,IPL_R_6_6,IPL,Supramarginal R (A40rv),,False
+147,A7m_L,L,ATN,ATN_1,1,11,PCun_L_4_1,PCun,Precuneus L (A7m),,False
+148,A7m_R,R,ATN,ATN_1,1,11,PCun_R_4_1,PCun,Precuneus R (A7m),,False
+149,A5m_L,L,ATN,ATN_3,3,15,PCun_L_4_2,PCun,Precuneus L (A5m),,False
+150,A5m_R,R,SMN,SMN_2,2,16,PCun_R_4_2,PCun,Precuneus R (A5m),,False
+151,dmPOS_L,L,DMN,DMN_5,5,24,PCun_L_4_3,PCun,Precuneus L (dmPOS),,False
+152,dmPOS_R,R,DMN,DMN_2,2,2,PCun_R_4_3,PCun,Precuneus R (dmPOS),,False
+153,A31_L,L,DMN,DMN_1,1,1,PCun_L_4_4,PCun,Precuneus L (A31),,False
+154,A31_R,R,DMN,DMN_1,1,1,PCun_R_4_4,PCun,Precuneus R (A31),,False
+155,A1/2/3ulhf_L,L,SMN,SMN_5,5,22,PoG_L_4_1,PoG,Postcentral L (A1/2/3ulhf),,False
+156,A1/2/3ulhf_R,R,SMN,SMN_5,5,22,PoG_R_4_1,PoG,Postcentral R (A1/2/3ulhf),,False
+157,A1/2/3tonIa_L,L,SMN,SMN_5,5,22,PoG_L_4_2,PoG,Postcentral L (A1/2/3tonIa),,False
+158,A1/2/3tonIa_R,R,SMN,SMN_5,5,22,PoG_R_4_2,PoG,Postcentral R (A1/2/3tonIa),,False
+159,A2_L,L,SMN,SMN_4,4,19,PoG_L_4_3,PoG,Postcentral L (A2),,False
+160,A2_R,R,SMN,SMN_3,3,17,PoG_R_4_3,PoG,Postcentral R (A2),,False
+161,A1/2/3tru_L,L,SMN,SMN_2,2,16,PoG_L_4_4,PoG,Postcentral L (A1/2/3tru),PoCG L,False
+162,A1/2/3tru_R,R,SMN,SMN_2,2,16,PoG_R_4_4,PoG,Postcentral R (A1/2/3tru),,False
+163,G_L,L,SAL,SAL_1,1,4,INS_L_6_1,INS,Insula L (G),,False
+164,G_R,R,SAL,SAL_1,1,4,INS_R_6_1,INS,Insula R (G),,False
+165,vIa_L,L,SAL,SAL_3,3,13,INS_L_6_2,INS,Insula L (vIa),,False
+166,vIa_R,R,SAL,SAL_3,3,13,INS_R_6_2,INS,Insula R (vIa),,False
+167,dIa_L,L,SAL,SAL_3,3,13,INS_L_6_3,INS,Insula L (dIa),,False
+168,dIa_R,R,SAL,SAL_3,3,13,INS_R_6_3,INS,Insula R (dIa),,False
+169,vId/vIg_L,L,SAL,SAL_1,1,4,INS_L_6_4,INS,Insula L (vId/vIg),,False
+170,vId/vIg_R,R,SAL,SAL_1,1,4,INS_R_6_4,INS,Insula R (vId/vIg),,False
+171,dIg_L,L,SMN,SMN_5,5,22,INS_L_6_5,INS,Insula L (dIg),pIns L,False
+172,dIg_R,R,SMN,SMN_5,5,22,INS_R_6_5,INS,Insula R (dIg),pIns R,False
+173,dId_L,L,SAL,SAL_1,1,4,INS_L_6_6,INS,Insula L (dId),mIns L,False
+174,dId_R,R,SAL,SAL_1,1,4,INS_R_6_6,INS,Insula R (dId),,False
+175,A23d_L,L,DMN,DMN_5,5,24,CG_L_7_1,CG,Dorsal PCC L (A23d),,False
+176,A23d_R,R,DMN,DMN_5,5,24,CG_R_7_1,CG,Dorsal PCC R (A23d),,False
+177,A24rv_L,L,SAL,SAL_3,3,13,CG_L_7_2,CG,ACC L (A24rv),,False
+178,A24rv_R,R,DMN,DMN_3,3,9,CG_R_7_2,CG,ACC R (A24rv),,False
+179,A32p_L,L,SAL,SAL_3,3,13,CG_L_7_3,CG,Pregenual ACC L (A32p),,False
+180,A32p_R,R,SAL,SAL_3,3,13,CG_R_7_3,CG,Pregenual ACC R (A32p),,False
+181,A23v_L,L,DMN,DMN_2,2,2,CG_L_7_4,CG,Ventral PCC L (A23v),vPCC L,False
+182,A23v_R,R,DMN,DMN_2,2,2,CG_R_7_4,CG,Ventral PCC R (A23v),,False
+183,A24cd_L,L,SAL,SAL_1,1,4,CG_L_7_5,CG,MCC L (A24cd),,False
+184,A24cd_R,R,SAL,SAL_1,1,4,CG_R_7_5,CG,MCC R (A24cd),,False
+185,A23c_L,L,SMN,SMN_2,2,16,CG_L_7_6,CG,PCC L (A23c),,False
+186,A23c_R,R,SMN,SMN_2,2,16,CG_R_7_6,CG,PCC R (A23c),,False
+187,A32sg_L,L,DMN,DMN_3,3,9,CG_L_7_7,CG,Subgenual ACC L (A32sg),,False
+188,A32sg_R,R,DMN,DMN_3,3,9,CG_R_7_7,CG,Subgenual ACC R (A32sg),,False
+189,cLinG_L,L,VIS,VIS_2,2,14,MVOcC_L_5_1,MVOcC,Lingual L (cLinG),,False
+190,cLinG_R,R,VIS,VIS_2,2,14,MVOcC_R_5_1,MVOcC,Lingual R (cLinG),,False
+191,rCunG_L,L,VIS,VIS_2,2,14,MVOcC_L_5_2,MVOcC,Cuneus L (rCunG),,False
+192,rCunG_R,R,VIS,VIS_2,2,14,MVOcC_R_5_2,MVOcC,Cuneus R (rCunG),,False
+193,cCunG_L,L,VIS,VIS_2,2,14,MVOcC_L_5_3,MVOcC,Cuneus L (cCunG),,False
+194,cCunG_R,R,VIS,VIS_2,2,14,MVOcC_R_5_3,MVOcC,Cuneus R (cCunG),,False
+195,rLinG_L,L,VIS,VIS_2,2,14,MVOcC_L_5_4,MVOcC,Lingual L (rLinG),,False
+196,rLinG_R,R,VIS,VIS_2,2,14,MVOcC_R_5_4,MVOcC,Lingual R (rLinG),,False
+197,vmPOS_L,L,VIS,VIS_2,2,14,MVOcC_L_5_5,MVOcC,Parieto-occipital L (vmPOS),,False
+198,vmPOS_R,R,VIS,VIS_2,2,14,MVOcC_R_5_5,MVOcC,Parieto-occipital R (vmPOS),,False
+199,mOccG_L,L,VIS,VIS_1,1,10,LOcC_L_4_1,LOcC,Middle occipital L (mOccG),,False
+200,mOccG_R,R,VIS,VIS_1,1,10,LOcC_R_4_1,LOcC,Middle occipital R (mOccG),,False
+201,V5/MT+_L,L,VIS,VIS_1,1,10,LOcC_L_4_2,LOcC,Lateral occipital L (V5/MT+),,False
+202,V5/MT+_R,R,VIS,VIS_1,1,10,LOcC_R_4_2,LOcC,Lateral occipital R (V5/MT+),,False
+203,OPC_L,L,VIS,VIS_3,3,23,LOcC_L_4_3,LOcC,Occipital pole L (OPC),,False
+204,OPC_R,R,VIS,VIS_3,3,23,LOcC_R_4_3,LOcC,Occipital pole R (OPC),,False
+205,iOccG_L,L,VIS,VIS_3,3,23,LOcC_L_4_4,LOcC,Inferior occipital L (iOccG),,False
+206,iOccG_R,R,VIS,VIS_3,3,23,LOcC_R_4_4,LOcC,Inferior occipital R (iOccG),,False
+207,msOccG_L,L,VIS,VIS_2,2,14,LOcC_L_2_1,LOcC,Superior occipital L (msOccG),,False
+208,msOccG_R,R,VIS,VIS_2,2,14,LOcC_R_2_1,LOcC,Superior occipital R (msOccG),,False
+209,lsOccG_L,L,ATN,ATN_2,2,12,LOcC_L_2_2,LOcC,Superior occipital L (lsOccG),,False
+210,lsOccG_R,R,ATN,ATN_2,2,12,LOcC_R_2_2,LOcC,Superior occipital R (lsOccG),,False
+211,mAmyg_L,L,DMN,DMN_3,3,9,Amyg_L_2_1,Amyg,Amygdala L (medial),,False
+212,mAmyg_R,R,DMN,DMN_3,3,9,Amyg_R_2_1,Amyg,Amygdala R (medial),,False
+213,lAmyg_L,L,SMN,SMN_5,5,22,Amyg_L_2_2,Amyg,Amygdala L (lateral),,False
+214,lAmyg_R,R,SMN,SMN_5,5,22,Amyg_R_2_2,Amyg,Amygdala R (lateral),,False
+215,rHipp_L,L,DMN,DMN_3,3,9,Hipp_L_2_1,Hipp,Hippocampus L (rostral),,False
+216,rHipp_R,R,DMN,DMN_2,2,2,Hipp_R_2_1,Hipp,Hippocampus R (rostral),,False
+217,cHipp_L,L,DMN,DMN_2,2,2,Hipp_L_2_2,Hipp,Hippocampus L (caudal),,False
+218,cHipp_R,R,DMN,DMN_2,2,2,Hipp_R_2_2,Hipp,Hippocampus R (caudal),,False
+219,vCa_L,L,DMN,DMN_3,3,9,BG_L_6_1,BG,Caudate L (ventral),,False
+220,vCa_R,R,SAL,SAL_3,3,13,BG_R_6_1,BG,Caudate R (ventral),,False
+221,GP_L,L,SAL,SAL_2,2,5,BG_L_6_2,BG,Globus pallidus L,,False
+222,GP_R,R,SAL,SAL_2,2,5,BG_R_6_2,BG,Globus pallidus R,,False
+223,NAc_L,L,DMN,DMN_3,3,9,BG_L_6_3,BG,N. accumbens L,NAc L,False
+224,NAc_R,R,DMN,DMN_3,3,9,BG_R_6_3,BG,N. accumbens R,,False
+225,vmPu_L,L,SAL,SAL_3,3,13,BG_L_6_4,BG,Putamen L (ventromedial),,False
+226,vmPu_R,R,SAL,SAL_2,2,5,BG_R_6_4,BG,Putamen R (ventromedial),,False
+227,dCa_L,L,SAL,SAL_3,3,13,BG_L_6_5,BG,Caudate L (dorsal),,False
+228,dCa_R,R,SAL,SAL_3,3,13,BG_R_6_5,BG,Caudate R (dorsal),,False
+229,dlPu_L,L,SMN,SMN_5,5,22,BG_L_6_6,BG,Putamen L (dorsolateral),,False
+230,dlPu_R,R,SMN,SMN_5,5,22,BG_R_6_6,BG,Putamen R (dorsolateral),,False
+231,mPFtha_L,L,SAL,SAL_3,3,13,Tha_L_8_1,Tha,Thalamus L (mPFtha),,False
+232,mPFtha_R,R,SAL,SAL_3,3,13,Tha_R_8_1,Tha,Thalamus R (mPFtha),,False
+233,mPMtha_L,L,SAL,SAL_1,1,4,Tha_L_8_2,Tha,Thalamus L (mPMtha),,False
+234,mPMtha_R,R,SAL,SAL_1,1,4,Tha_R_8_2,Tha,Thalamus R (mPMtha),,False
+235,Stha_L,L,SMN,SMN_4,4,19,Tha_L_8_3,Tha,Thalamus L (Stha),Thal L,False
+236,Stha_R,R,SMN,SMN_3,3,17,Tha_R_8_3,Tha,Thalamus R (Stha),,False
+237,rTtha_L,L,SAL,SAL_3,3,13,Tha_L_8_4,Tha,Thalamus L (rTtha),,False
+238,rTtha_R,R,SAL,SAL_3,3,13,Tha_R_8_4,Tha,Thalamus R (rTtha),,False
+239,PPtha_L,L,CON,CON_4,4,20,Tha_L_8_5,Tha,Thalamus L (PPtha),,True
+240,PPtha_R,R,CON,CON_4,4,20,Tha_R_8_5,Tha,Thalamus R (PPtha),,True
+241,Otha_L,L,VIS,VIS_3,3,23,Tha_L_8_6,Tha,Thalamus L (Otha),,True
+242,Otha_R,R,VIS,VIS_3,3,23,Tha_R_8_6,Tha,Thalamus R (Otha),,True
+243,cTtha_L,L,ATN,ATN_4,4,18,Tha_L_8_7,Tha,Thalamus L (cTtha),,True
+244,cTtha_R,R,ATN,ATN_2,2,12,Tha_R_8_7,Tha,Thalamus R (cTtha),,True
+245,lPFtha_L,L,SAL,SAL_1,1,4,Tha_L_8_8,Tha,Thalamus L (lPFtha),,False
+246,lPFtha_R,R,SAL,SAL_2,2,5,,Tha,Thalamus R (lPFtha),,False

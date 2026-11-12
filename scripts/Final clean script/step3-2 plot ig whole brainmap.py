@@ -4,7 +4,8 @@ Step 3-2: Integrated Gradients (IG) Whole-Brain Surface Plotting
 This script visualizes the spatial patterns of feature importance by:
 1. Aggregating IG attribution maps (ROI level) across cross-validation folds.
 2. Calculating the median absolute attribution for ASD and TDC groups.
-3. Mapping the 246 ROI importance values back to a NIfTI brain volume.
+3. Keeping the top 5% of regions (12 of 246) and mapping them to a NIfTI volume
+   (data column c = Brainnetome region ID c).
 4. Projecting the 3D volume onto a 2D cortical surface (fsaverage5).
 5. Generating standardized multi-view panels (Lateral and Medial for both hemispheres).
 """
@@ -64,16 +65,24 @@ atlas_img = nib.load(atlas_path)
 atlas_data = atlas_img.get_fdata()
 
 def map_to_volume(atlas_data, roi_values):
+    # data column c is Brainnetome region ID c (column 0 has no region)
     vol = np.zeros_like(atlas_data)
-    for i in range(246):
-        vol[atlas_data == i + 1] = roi_values[i]
+    for c in range(1, 246):
+        vol[atlas_data == c] = roi_values[c]
     return vol
 
+def top5(values, k=12):
+    # keep the top 5% of regions (12 of 246), as shown in Figures S2 and S9
+    out = np.zeros_like(values)
+    idx = np.argsort(values)[::-1][:k]
+    out[idx] = values[idx]
+    return out
+
 volume_dict = {
-    "outmean_asd": map_to_volume(atlas_data, median_out_asd.mean(axis=0)),
-    "outmean_tdc": map_to_volume(atlas_data, median_out_tdc.mean(axis=0)),
-    "mil_asd": map_to_volume(atlas_data, median_mil_asd.mean(axis=0)),
-    "mil_tdc": map_to_volume(atlas_data, median_mil_tdc.mean(axis=0))
+    "outmean_asd": map_to_volume(atlas_data, top5(median_out_asd.mean(axis=0))),
+    "outmean_tdc": map_to_volume(atlas_data, top5(median_out_tdc.mean(axis=0))),
+    "mil_asd": map_to_volume(atlas_data, top5(median_mil_asd.mean(axis=0))),
+    "mil_tdc": map_to_volume(atlas_data, top5(median_mil_tdc.mean(axis=0)))
 }
 
 # ===== Step 4: Project to fsaverage5 and plot views =====

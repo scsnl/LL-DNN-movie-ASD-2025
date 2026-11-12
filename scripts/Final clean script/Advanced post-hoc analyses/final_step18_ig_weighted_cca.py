@@ -15,6 +15,8 @@ Key Features:
 """
 
 import os
+import sys
+from pathlib import Path
 import numpy as np
 import pandas as pd
 from sklearn.cross_decomposition import CCA
@@ -30,6 +32,9 @@ from operator import itemgetter
 from tqdm import tqdm
 import warnings
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from ig_io import load_fold_array  # noqa: E402
+
 # Suppress sklearn warnings for cleaner output
 warnings.filterwarnings("ignore")
 
@@ -37,9 +42,10 @@ warnings.filterwarnings("ignore")
 TEST_MODE = os.environ.get("TEST_MODE", "0") == "1"
 TEST_DATA_DIR = os.environ.get("TEST_DATA_DIR", "")
 TEST_OUTPUT_DIR = os.environ.get("TEST_OUTPUT_DIR", "")
+SEG2_ROOT = os.path.join(TEST_OUTPUT_DIR, "seg2") if TEST_OUTPUT_DIR else os.path.join("results", "seg2")
 N_PERM = int(os.environ.get("N_PERM", "5000"))
 N_BOOT = int(os.environ.get("N_BOOT", "5000"))
-MIN_SUBJECTS = 10 if TEST_MODE else 30
+MIN_SUBJECTS = 3 if TEST_MODE else 30
 TOP_PERCENT = 0.05
 
 class PermCCA:
@@ -105,8 +111,8 @@ def main():
         {"name": "MovieDM_Seg2", 
          "fmri_file": os.path.join(TEST_DATA_DIR, "combined_asd_td_movieDM_data.pklz") if TEST_DATA_DIR else "combined_asd_td_movieDM_data.pklz",
          "behavior_file": os.path.join(TEST_DATA_DIR, "all subject behavior data.csv") if TEST_DATA_DIR else "all subject behavior data.csv",
-         "ig_root": os.path.join(TEST_OUTPUT_DIR, "saved_models") if TEST_OUTPUT_DIR else "saved_models",
-         "attn_csv": os.path.join(TEST_OUTPUT_DIR, "figures", "attn_significance.csv") if TEST_OUTPUT_DIR else "figures/attn_significance.csv",
+         "ig_root": os.path.join(SEG2_ROOT, "saved_models"),
+         "attn_csv": os.path.join(SEG2_ROOT, "figures", "attn_significance.csv"),
          "tr_start": 0, "tr_end": 9999}
     ]
     
@@ -122,12 +128,9 @@ def main():
         datao['subject_id'] = datao['subject_id'].astype(str).str.strip().str.lower()
         asd = datao[datao['label'].str.lower()=='asd'].reset_index(drop=True)
         
-        all_ig = []
-        for f in range(5):
-            p = os.path.join(conf['ig_root'], f"fold{f}", "ig_roi_milout.npy")
-            if os.path.exists(p): all_ig.append(np.load(p)[np.load(os.path.join(conf['ig_root'], f"fold{f}", "labels.npy"))==0])
-        if not all_ig: continue
-        ig_asd = np.vstack(all_ig)
+        if not os.path.exists(os.path.join(conf['ig_root'], "fold0", "ig_roi_milout.npy")): continue
+        ig_ids, ig_all, ig_lbl = load_fold_array(conf['ig_root'], "ig_roi_milout.npy", conf['fmri_file'])
+        ig_ids, ig_asd = ig_ids[ig_lbl == 0], ig_all[ig_lbl == 0]
         
         X_list = []
         for clus in clusters[:6]:
@@ -140,7 +143,9 @@ def main():
         behav = pd.read_csv(conf['behavior_file'], low_memory=False)
         behav['Identifiers'] = behav['Identifiers'].astype(str).str.strip().str.lower()
         targets = ["CBCL,CBCL_Total_T", "RBS,RBS_Total", "SRS,SRS_Total_T"]
-        df_all = pd.DataFrame({'subject_id': asd['subject_id']}).join(pd.DataFrame(X, columns=[f'E{i+1}' for i in range(X.shape[1])])).merge(behav[['Identifiers']+targets], left_on='subject_id', right_on='Identifiers', how='inner')
+        feat = pd.DataFrame(X, columns=[f'E{i+1}' for i in range(X.shape[1])])
+        feat.insert(0, 'subject_id', ig_ids)
+        df_all = feat.merge(behav[['Identifiers']+targets], left_on='subject_id', right_on='Identifiers', how='inner')
         df_all = df_all.merge(asd[['subject_id', 'age', 'gender', 'site']], on='subject_id').dropna()
         if len(df_all) < MIN_SUBJECTS: continue
         

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Run the whole pipeline on 10-subject test data.
-# This is intended to "smoke test" the GitHub package.
+# Smoke test: checks that every script runs; the numbers are meaningless.
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SCRIPTS_DIR="$ROOT_DIR/scripts/Final clean script"
@@ -24,7 +24,7 @@ python "$ROOT_DIR/make_test_data.py"
 echo "[2/2] Run scripts in order..."
 cd "$SCRIPTS_DIR"
 
-# Link test data into the working directory (many legacy scripts expect local filenames)
+# Several scripts read inputs from the working directory
 ln -sfn "$DATA_DIR/combined_asd_td_movieDM_data.pklz" "combined_asd_td_movieDM_data.pklz"
 ln -sfn "$DATA_DIR/combined_asd_td_movieTP_data.pklz" "combined_asd_td_movieTP_data.pklz"
 ln -sfn "$DATA_DIR/all subject behavior data.csv" "all subject behavior data.csv"
@@ -36,7 +36,7 @@ ln -sfn "$ROOT_DIR/assets/behavior/behavior-list rbs.csv" "behavior-list rbs.csv
 ln -sfn "$ROOT_DIR/assets/behavior/behavior-list srs.csv" "behavior-list srs.csv"
 ln -sfn "$ROOT_DIR/assets/behavior/behavior-list WISC.csv" "behavior-list WISC.csv"
 
-# Route heavy outputs to test_outputs but keep legacy paths working via symlinks
+# Model outputs go to test_outputs; symlinks keep the relative paths valid
 mkdir -p "$OUT_DIR/saved_models" "$OUT_DIR/cv_indices" "$OUT_DIR/crossval_results" "$OUT_DIR/nested_results"
 ln -sfn "$OUT_DIR/saved_models" "saved_models"
 ln -sfn "$OUT_DIR/cv_indices" "cv_indices"
@@ -88,19 +88,13 @@ ln -sfn "$DATA_DIR/combined_asd_td_movieDM_data.pklz" "combined_asd_td_movieDM_d
 ln -sfn "$DATA_DIR/combined_asd_td_movieTP_data.pklz" "combined_asd_td_movieTP_data.pklz"
 ln -sfn "$DATA_DIR/all subject behavior data.csv" "all subject behavior data.csv"
 
-# prepare seg2 attention csv fallback for scripts expecting results/seg2/figures
-mkdir -p "results/seg2/figures"
-if [[ -f "../figures/attn_significance.csv" ]]; then
-  cp -f "../figures/attn_significance.csv" "results/seg2/figures/attn_significance.csv"
-fi
 
 # time-filtered training (TEST_MODE runs seg2 only)
 python "supply-step2_timefiltered_train_and_ig.py"
+# Segment 2 attention table (events indexed from segment onset)
+python "../step3 analysis and plot attention weight.py" "$OUT_DIR/seg2/saved_models" "$OUT_DIR/seg2/figures"
 python "supply-step2-1_timefiltered_eval.py"
 
-python "step8_threshold_stability_surface.py"
-python "step9A_backbone_frequency_surface.py"
-python "step9B_common_unique_event_panel_surface.py"
 python "step7_mil_20net_diff_baseline.py"
 python "step16_network_diff_top10.py"
 python "step17_v8_final_colors.py"
@@ -111,6 +105,22 @@ python "final_step13_mil_cluster_corr_auto.py"
 # Multivariate (reduce heavy permutation/bootstrap inside scripts when TEST_MODE=1)
 python "final_step19_ig_only_plsc_totals.py"
 python "final_step18_ig_weighted_cca.py"
+
+# Cross-event common regions (Figures 3C-D, 5B-C, S5, S10; Tables S6, S10)
+cd "$SCRIPTS_DIR/Common regions"
+python cr1_event_maps.py
+python cr2_common_regions.py
+python cr3_surfaces.py
+python cr4_radars.py
+python cr5_schematic.py
+
+# Stimulus measures (Table S7) on synthetic media
+cd "$SCRIPTS_DIR/Stimulus features"
+export N_SURROGATE="${N_SURROGATE:-50}"
+python make_test_media.py
+for s in sf1_extract sf2_clip sf3_lexicon sf4_semantic sf5_audio sf6_visual sf7_salience sf8_validation sf9_segments; do
+  python "$s.py"
+done
 
 echo "All scripts completed. Outputs in: $OUT_DIR"
 

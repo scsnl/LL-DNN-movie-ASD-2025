@@ -128,7 +128,7 @@ else:
         return Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)) if ret else None
 
     def process_video_events(video_path):
-        print("📽 Detecting visual scenes...")
+        print("Detecting visual scenes")
         visual_scenes = detect_visual_scenes(video_path)
         visual_records = []
         for i, (start, end) in enumerate(visual_scenes):
@@ -137,7 +137,7 @@ else:
                 emo_label, _ = classify_emotion(img)
                 visual_records.append({"scene_type": "visual", "scene_index": i + 1, "start_sec": round(start, 2), "end_sec": round(end, 2), "emotion": emo_label})
 
-        print("🧠 Detecting semantic events...")
+        print("Detecting semantic events")
         times, images = extract_frames(video_path)
         clip_feats = extract_clip_embeddings(images)
         semantic_scenes = cluster_embeddings(clip_feats, times, threshold=0.6)

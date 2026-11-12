@@ -15,12 +15,13 @@ from operator import itemgetter
 
 # Configuration
 TEST_OUTPUT_DIR = os.environ.get("TEST_OUTPUT_DIR", "")
+SEG2_ROOT = os.path.join(TEST_OUTPUT_DIR, "seg2") if TEST_OUTPUT_DIR else os.path.join("results", "seg2")
 OUT_DIR = "final_curve_visualization"; os.makedirs(OUT_DIR, exist_ok=True)
 
 CONFIGS = [
     {
         "name": "MovieDM_Seg2",
-        "attn_csv": os.path.join(TEST_OUTPUT_DIR, "figures", "attn_significance.csv") if TEST_OUTPUT_DIR else "figures/attn_significance.csv",
+        "attn_csv": os.path.join(SEG2_ROOT, "figures", "attn_significance.csv"),
         "tr_start": 0, "tr_end": 9999
     }
 ]

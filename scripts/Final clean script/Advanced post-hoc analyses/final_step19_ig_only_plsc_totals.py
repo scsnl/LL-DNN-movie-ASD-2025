@@ -6,13 +6,15 @@ and the three core behavioral total scores: CBCL Total, RBS Total, and SRS Total
 Analysis Flow:
 1. Calculates subject-level saliency indices for each significant attention cluster.
 2. Applies Rank-based Inverse Normal Transform (Rank-INT) to features and targets.
-3. Residualizes data by regressing out Age, Sex, and Site.
+3. Residualizes data by regressing out Age, Sex, Site and mean framewise displacement.
 4. Conducts PLSC to extract Latent Variables (LVs) maximizing the covariance 
    between brain events and behavioral totals.
-5. Evaluates significance via permutation tests and stability via bootstrap BSR.
+5. Evaluates significance via permutation tests and stability via bootstrap ratios
+   (original weight / bootstrap standard error).
 """
 
 import os
+import sys
 import numpy as np
 import pandas as pd
 from pathlib import Path
@@ -25,13 +27,17 @@ from sklearn.utils import resample
 from scipy.stats import norm
 from tqdm import tqdm
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from ig_io import load_fold_array  # noqa: E402
+
 # Environment configuration
 TEST_MODE = os.environ.get("TEST_MODE", "0") == "1"
 TEST_DATA_DIR = os.environ.get("TEST_DATA_DIR", "")
 TEST_OUTPUT_DIR = os.environ.get("TEST_OUTPUT_DIR", "")
+SEG2_ROOT = os.path.join(TEST_OUTPUT_DIR, "seg2") if TEST_OUTPUT_DIR else os.path.join("results", "seg2")
 N_PERM = int(os.environ.get("N_PERM", "5000"))
 N_BOOT = int(os.environ.get("N_BOOT", "5000"))
-MIN_SUBJECTS = 10 if TEST_MODE else 30
+MIN_SUBJECTS = 3 if TEST_MODE else 30
 TOP_PERCENT = 0.05
 
 def _rank_int(x: np.ndarray) -> np.ndarray:
@@ -53,8 +59,8 @@ def main():
             "name": "MovieDM_Seg2",
             "fmri_file": os.path.join(TEST_DATA_DIR, "combined_asd_td_movieDM_data.pklz") if TEST_DATA_DIR else "combined_asd_td_movieDM_data.pklz",
             "behavior_file": os.path.join(TEST_DATA_DIR, "all subject behavior data.csv") if TEST_DATA_DIR else "all subject behavior data.csv",
-            "ig_root": os.path.join(TEST_OUTPUT_DIR, "saved_models") if TEST_OUTPUT_DIR else "saved_models",
-            "attn_csv": os.path.join(TEST_OUTPUT_DIR, "figures", "attn_significance.csv") if TEST_OUTPUT_DIR else "figures/attn_significance.csv",
+            "ig_root": os.path.join(SEG2_ROOT, "saved_models"),
+            "attn_csv": os.path.join(SEG2_ROOT, "figures", "attn_significance.csv"),
         }
     ]
     targets = ["CBCL,CBCL_Total_T", "RBS,RBS_Total", "SRS,SRS_Total_T"]
@@ -72,13 +78,9 @@ def main():
         datao["subject_id"] = datao["subject_id"].astype(str).str.strip().str.lower()
         asd = datao[datao["label"].str.lower() == "asd"].reset_index(drop=True)
         
-        all_ig = []
-        for fold in range(5):
-            p_ig = os.path.join(conf["ig_root"], f"fold{fold}", "ig_roi_milout.npy")
-            p_lbl = os.path.join(conf["ig_root"], f"fold{fold}", "labels.npy")
-            if os.path.exists(p_ig): all_ig.append(np.load(p_ig)[np.load(p_lbl) == 0])
-        if not all_ig: continue
-        ig_asd = np.vstack(all_ig)
+        if not os.path.exists(os.path.join(conf["ig_root"], "fold0", "ig_roi_milout.npy")): continue
+        ig_ids, ig_all, ig_lbl = load_fold_array(conf["ig_root"], "ig_roi_milout.npy", conf["fmri_file"])
+        ig_ids, ig_asd = ig_ids[ig_lbl == 0], ig_all[ig_lbl == 0]
 
         X_list = []
         for trs in clusters[:6]:
@@ -93,14 +95,18 @@ def main():
         behav = pd.read_csv(conf["behavior_file"], low_memory=False)
         behav["Identifiers"] = behav["Identifiers"].astype(str).str.strip().str.lower()
         cols = [c for c in targets if c in behav.columns]
-        df_final = pd.DataFrame({"subject_id": asd["subject_id"]}).join(pd.DataFrame(X, columns=[f"E{i+1}" for i in range(X.shape[1])])).merge(behav[["Identifiers"] + cols], left_on="subject_id", right_on="Identifiers", how="inner")
-        
-        age = pd.to_numeric(asd["age"], errors="coerce").values.reshape(-1, 1)
-        gender = asd["gender"].astype(str).str.strip().str.lower().map({"male": 1, "female": 0}).values.reshape(-1, 1)
-        site = pd.get_dummies(asd["site"].astype(str).str.strip().str.lower(), dtype=float).values
-        Z = np.concatenate([age, gender, site], axis=1)[df_final.index]
-        
+        # brain features, covariates and scores are joined on subject_id
+        feat = pd.DataFrame(X, columns=[f"E{i+1}" for i in range(X.shape[1])])
+        feat.insert(0, "subject_id", ig_ids)
+        cov = pd.DataFrame({"subject_id": asd["subject_id"],
+                            "age": pd.to_numeric(asd["age"], errors="coerce"),
+                            "gender": asd["gender"].astype(str).str.strip().str.lower().map({"male": 1, "female": 0}),
+                            "mean_fd": pd.to_numeric(asd["mean_fd"], errors="coerce")})
+        site = pd.get_dummies(asd["site"].astype(str).str.strip().str.lower(), prefix="site", dtype=float)
+        cov = pd.concat([cov, site], axis=1)
+        df_final = feat.merge(cov, on="subject_id", how="inner").merge(behav[["Identifiers"] + cols], left_on="subject_id", right_on="Identifiers", how="inner")
         df_final = df_final.dropna(subset=cols)
+        Z = df_final[["age", "gender", "mean_fd"] + list(site.columns)].values.astype(float)
         if len(df_final) < MIN_SUBJECTS: continue
         X_in, Y_in = df_final[[f"E{i+1}" for i in range(X.shape[1])]].values, df_final[cols].values
         
@@ -121,8 +127,8 @@ def main():
             if np.dot(xw, xw0) < 0: xw, yw = -xw, -yw
             boot_xw[b], boot_yw[b] = xw, yw
         
-        x_bsr = boot_xw.mean(0) / (boot_xw.std(0, ddof=1) + 1e-12)
-        y_bsr = boot_yw.mean(0) / (boot_yw.std(0, ddof=1) + 1e-12)
+        x_bsr = xw0 / (boot_xw.std(0, ddof=1) + 1e-12)
+        y_bsr = yw0 / (boot_yw.std(0, ddof=1) + 1e-12)
         
         out = OUT_DIR / conf["name"]; out.mkdir(parents=True, exist_ok=True)
         pd.DataFrame({"event": [f"Event_{i+1}" for i in range(X_in.shape[1])], "weight": xw0, "bsr": x_bsr, "p": 2*norm.sf(np.abs(x_bsr))}).to_csv(out / "brain_weights.csv", index=False)

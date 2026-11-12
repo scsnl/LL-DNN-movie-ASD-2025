@@ -1,33 +1,24 @@
-## Advanced Post-hoc Analyses (MovieDM & MovieTP)
+## Post-hoc analyses
 
-This directory contains consolidated, non-redundant scripts for advanced post-hoc analysis, focusing on MovieDM and MovieTP datasets. These scripts are organized for researchers to explore event-specific patterns, functional network mappings, and multivariate brain-behavior associations.
+Run these scripts from this folder. Fold outputs are read through `../ig_io.py`, which attaches each IG row to its subject ID.
 
-### 1) Time-filtered Training and Evaluation
-- `supply-step2_timefiltered_train_and_ig.py`: Localized training on specific movie segments (seg1/seg2/seg3) and attribution extraction.
-- `supply-step2-1_timefiltered_eval.py`: Performance evaluation and metric summary across segments and folds.
+### Segment-wise training (movieDM)
+- `supply-step2_timefiltered_train_and_ig.py`: 5-fold training and IG for Segment 1 (TR 0-237), Segment 2 (TR 372-543) and Segment 3 (TR 547-end). Writes `results/<seg>/saved_models/fold*/`.
+- `supply-step2-1_timefiltered_eval.py`: accuracy, precision, recall and F1 for each fold and segment.
 
-### 2) Event Integration (Seg2 Focus)
-- `supply-step3-6_seg2_compute_events_and_combine.py`: Integrated analysis of accuracy bias, IG top timepoints, and attention significance to define neural events.
+### Segment 2 events
+- `supply-step3-6_seg2_compute_events_and_combine.py`: overlap between the IG top time points and the attention-significant TRs.
+- `step17_v8_final_colors.py`: attention time courses with event bands.
 
-### 3) Visualizations
-- `step17_v8_final_colors.py`: Stylized plotting of attention curves with standardized group colors and event-based hatching.
+### Brain-behaviour association
+- `final_step19_ig_only_plsc_totals.py`: PLSC between event-level Neural Saliency Indices and SRS, RBS-R and CBCL total scores. Writes weights and bootstrap ratios.
+- `final_step13_global_wholetime_corr.py`: Global Saliency Index (mean |IG| over the Global-path top-5% regions) and behavioural scores, Segment 2.
+- `final_step13_mil_cluster_corr_auto.py`: event-level Neural Saliency Index and behavioural scores, Segment 2.
+- `final_step18_ig_weighted_cca.py`: CCA between event features and total scores.
 
-### 4) Surface-Based Analysis (Backbone & Common/Unique)
-- `step8_threshold_stability_surface.py`: Identifies ROIs consistently appearing in top attribution ranks across folds (Stability Backbone).
-- `step9A_backbone_frequency_surface.py`: Frequency of ROI appearance in Top-K across multiple neural events (MovieDM).
-- `step9A_backbone_frequency_surface_movietp.py`: Frequency of ROI appearance in Top-K across multiple neural events (MovieTP).
-- `step9B_common_unique_event_panel_surface.py`: Contrast between shared "common" regions and event-specific "unique" regions (MovieDM).
-- `step9B_common_unique_event_panel_surface_movietp.py`: Contrast between shared "common" regions and event-specific "unique" regions (MovieTP).
+Partial correlations adjust for age, sex, site and mean framewise displacement. The Segment 2 scripts read `results/seg2/saved_models` and `results/seg2/figures/attn_significance.csv`; the latter is written by `python "../step3 analysis and plot attention weight.py" results/seg2/saved_models results/seg2/figures`.
 
-### 5) Functional Network Analysis
-- `network_diff_plot.py`: Maps ROIs to Yeo 7 networks and performs statistical group comparisons (ASD vs TDC).
-- `step7_mil_20net_diff_baseline.py`: Baseline group comparison using 20 functional sub-networks without temporal constraints.
-- `step16_network_diff_top10.py`: Specialized network analysis of Top 10% ROIs within defined neural events.
+### Yeo network summaries
+- `network_diff_plot.py`, `step7_mil_20net_diff_baseline.py` and `step16_network_diff_top10.py`: group comparisons of ROIs mapped to Yeo networks, using `assets/mapping/subregion_func_network_Yeo.csv`.
 
-### 6) Brain-Behavior Correlation (Univariate)
-- `final_step13_global_wholetime_corr.py`: Partial correlation between Global Mean path saliency and clinical traits (Age, Sex, Site controlled).
-- `final_step13_mil_cluster_corr_auto.py`: Correlation analysis focusing on High/Low attention events identified by the MIL path.
-
-### 7) Brain-Behavior Association (Multivariate)
-- `final_step19_ig_only_plsc_totals.py`: Partial Least Squares Correlation (PLSC) between event saliency and behavioral total scores.
-- `final_step18_ig_weighted_cca.py`: Canonical Correlation Analysis (CCA) with Freedman-Lane permutation and bootstrap resampling for stability.
+Cross-event common regions are in `../Common regions/`. Stimulus measures (Table S7) are in `../Stimulus features/`.
