@@ -104,3 +104,100 @@ def reindex(ids, arr, target_ids):
 
 def save_fold_ids(fold_dir, ids):
     np.save(os.path.join(fold_dir, "subject_ids.npy"), np.array([norm_id(s) for s in ids], dtype=str))
+
+
+# ---------------------------------------------------------------------------
+# Region labels, saliency indices, covariates
+# ---------------------------------------------------------------------------
+TOP_K = int(246 * 0.05)  # top 5% of 246 regions = 12
+
+
+def column_to_bn_id(c):
+    """Data column c is Brainnetome region ID c; column 0 has no region label."""
+    return int(c) if int(c) > 0 else None
+
+
+def global_group_map(fold_root, fname, label, n_folds=N_FOLDS):
+    """Per-region group attribution: mean |IG| over a group's participants within
+    each fold, median across folds, then mean over time."""
+    per_fold = []
+    for f in range(n_folds):
+        ig = np.load(os.path.join(fold_root, f"fold{f}", fname))
+        lbl = np.load(os.path.join(fold_root, f"fold{f}", "labels.npy"))
+        g = ig[lbl == label]
+        if len(g):
+            per_fold.append(np.mean(np.abs(g), axis=0))
+    return np.median(np.stack(per_fold), axis=0).mean(axis=0)
+
+
+def top_regions(group_map, k=TOP_K):
+    """Indices of the k regions with the largest group attribution, largest first."""
+    return np.argsort(group_map)[::-1][:k]
+
+
+def global_saliency_index(ig, regions):
+    """Per participant: mean |IG| over the whole viewing period, averaged over regions."""
+    return np.abs(ig).mean(axis=1)[:, regions].mean(axis=1)
+
+
+def event_maps(ig, trs):
+    """Per participant and region: median |IG| over the event's TRs."""
+    trs = [t for t in trs if t < ig.shape[1]]
+    return np.median(np.abs(ig[:, trs, :]), axis=1)
+
+
+def neural_saliency_index(ig, trs, k=TOP_K):
+    """Per participant Neural Saliency Index for one event and the event's top regions
+    (top k of the group mean of the per-participant event maps)."""
+    m = event_maps(ig, trs)
+    regions = top_regions(m.mean(axis=0), k)
+    return m[:, regions].mean(axis=1), regions
+
+
+def event_windows(attn_csv, col="sig_raw"):
+    """Contiguous runs of significant TRs in an attention table."""
+    from itertools import groupby
+    d = pd.read_csv(attn_csv)
+    sig = sorted(d.loc[d[col].astype(str).str.upper().isin(["TRUE", "1"]), "timepoint"].astype(int))
+    return [[t for _, t in g] for _, g in groupby(enumerate(sig), lambda x: x[1] - x[0])]
+
+
+def covariates(d):
+    """Age, sex, mean framewise displacement and site (indicator coded), keyed by subject_id."""
+    out = pd.DataFrame({"subject_id": d["subject_id"].map(norm_id).values,
+                        "age": pd.to_numeric(d["age"], errors="coerce").values,
+                        "sex": d["gender"].astype(str).str.strip().str.lower().map({"male": 1, "female": 0}).values,
+                        "mean_fd": pd.to_numeric(d["mean_fd"], errors="coerce").values})
+    site = pd.get_dummies(d["site"].astype(str).str.strip().str.lower(), prefix="site",
+                          drop_first=True, dtype=float).reset_index(drop=True)
+    return pd.concat([out, site], axis=1)
+
+
+def partial_corr(x, y, Z):
+    """Pearson correlation of x and y after regressing Z (with intercept) from both."""
+    from scipy.stats import pearsonr
+    Z1 = np.column_stack([np.ones(len(x)), Z])
+    rx = x - Z1 @ np.linalg.lstsq(Z1, x, rcond=None)[0]
+    ry = y - Z1 @ np.linalg.lstsq(Z1, y, rcond=None)[0]
+    return pearsonr(rx, ry)
+
+
+def correlate_with_behaviour(index_df, cov_df, behav, cols, min_n):
+    """Partial correlations of every column in index_df (except subject_id) with each
+    behavioural column, adjusting for the covariates; all joins on subject_id."""
+    behav = behav.copy()
+    behav["subject_id"] = behav["Identifiers"].map(norm_id)
+    zcols = [c for c in cov_df.columns if c != "subject_id"]
+    rows = []
+    for feat in [c for c in index_df.columns if c != "subject_id"]:
+        for col in cols:
+            if col in ("Identifiers", "subject_id"):
+                continue
+            b = behav[["subject_id", col]].assign(score=pd.to_numeric(behav[col], errors="coerce"))
+            df = index_df[["subject_id", feat]].merge(cov_df, on="subject_id").merge(
+                b[["subject_id", "score"]], on="subject_id").dropna()
+            if len(df) < min_n:
+                continue
+            r, p = partial_corr(df[feat].to_numpy(float), df["score"].to_numpy(float), df[zcols].to_numpy(float))
+            rows.append({"feature": feat, "scale": col, "partial_r": r, "partial_p": p, "n": len(df)})
+    return pd.DataFrame(rows)
