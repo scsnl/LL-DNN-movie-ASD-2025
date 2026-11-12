@@ -6,10 +6,11 @@ and the three core behavioral total scores: CBCL Total, RBS Total, and SRS Total
 Analysis Flow:
 1. Calculates subject-level saliency indices for each significant attention cluster.
 2. Applies Rank-based Inverse Normal Transform (Rank-INT) to features and targets.
-3. Residualizes data by regressing out Age, Sex, and Site.
+3. Residualizes data by regressing out Age, Sex, Site and mean framewise displacement.
 4. Conducts PLSC to extract Latent Variables (LVs) maximizing the covariance 
    between brain events and behavioral totals.
-5. Evaluates significance via permutation tests and stability via bootstrap BSR.
+5. Evaluates significance via permutation tests and stability via bootstrap ratios
+   (original weight / bootstrap standard error).
 """
 
 import os
@@ -98,12 +99,13 @@ def main():
         feat.insert(0, "subject_id", ig_ids)
         cov = pd.DataFrame({"subject_id": asd["subject_id"],
                             "age": pd.to_numeric(asd["age"], errors="coerce"),
-                            "gender": asd["gender"].astype(str).str.strip().str.lower().map({"male": 1, "female": 0})})
+                            "gender": asd["gender"].astype(str).str.strip().str.lower().map({"male": 1, "female": 0}),
+                            "mean_fd": pd.to_numeric(asd["mean_fd"], errors="coerce")})
         site = pd.get_dummies(asd["site"].astype(str).str.strip().str.lower(), prefix="site", dtype=float)
         cov = pd.concat([cov, site], axis=1)
         df_final = feat.merge(cov, on="subject_id", how="inner").merge(behav[["Identifiers"] + cols], left_on="subject_id", right_on="Identifiers", how="inner")
         df_final = df_final.dropna(subset=cols)
-        Z = df_final[["age", "gender"] + list(site.columns)].values.astype(float)
+        Z = df_final[["age", "gender", "mean_fd"] + list(site.columns)].values.astype(float)
         if len(df_final) < MIN_SUBJECTS: continue
         X_in, Y_in = df_final[[f"E{i+1}" for i in range(X.shape[1])]].values, df_final[cols].values
         
@@ -124,8 +126,8 @@ def main():
             if np.dot(xw, xw0) < 0: xw, yw = -xw, -yw
             boot_xw[b], boot_yw[b] = xw, yw
         
-        x_bsr = boot_xw.mean(0) / (boot_xw.std(0, ddof=1) + 1e-12)
-        y_bsr = boot_yw.mean(0) / (boot_yw.std(0, ddof=1) + 1e-12)
+        x_bsr = xw0 / (boot_xw.std(0, ddof=1) + 1e-12)
+        y_bsr = yw0 / (boot_yw.std(0, ddof=1) + 1e-12)
         
         out = OUT_DIR / conf["name"]; out.mkdir(parents=True, exist_ok=True)
         pd.DataFrame({"event": [f"Event_{i+1}" for i in range(X_in.shape[1])], "weight": xw0, "bsr": x_bsr, "p": 2*norm.sf(np.abs(x_bsr))}).to_csv(out / "brain_weights.csv", index=False)
