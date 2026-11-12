@@ -15,7 +15,7 @@ from scipy.stats import ttest_ind
 from scipy.special import softmax
 from statsmodels.stats.multitest import multipletests
 
-def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=0.08):
+def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=0.05, out_dir='figures'):
     """
     Summarizes and plots MIL-specific attention scores across folds.
     """
@@ -44,7 +44,7 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
     outmean_all = np.vstack(outmean_all)
     label_all = np.concatenate(label_all)
 
-    os.makedirs("figures", exist_ok=True)
+    os.makedirs(out_dir, exist_ok=True)
     attn_asd = attn_all[label_all == 0]
     attn_td = attn_all[label_all == 1]
 
@@ -70,7 +70,7 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
     plt.ylabel('Attention Weight')
     plt.legend()
     plt.tight_layout()
-    plt.savefig("figures/attn_profile_raw_mil.png", dpi=300)
+    plt.savefig(os.path.join(out_dir, "attn_profile_raw_mil.png"), dpi=300)
     plt.close()
 
     # Save data for further statistical analysis
@@ -83,7 +83,7 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
         'sig_raw': sig_raw,
         'sig_fdr': sig_fdr
     })
-    df.to_csv(os.path.join("figures", "attn_significance_mil.csv"), index=False)
+    df.to_csv(os.path.join(out_dir, "attn_significance_mil.csv"), index=False)
 
     # MIL Softmax Confidence
     probs = softmax(outmean_all, axis=1)
@@ -97,10 +97,15 @@ def analyze_attention_and_prediction_from_saved(folds_dir='saved_models', alpha=
     plt.ylabel('Confidence (ASD Class)')
     plt.grid(True, linestyle='--', alpha=0.5)
     plt.tight_layout()
-    plt.savefig("figures/mean_prob_boxplot_mil.png", dpi=300)
+    plt.savefig(os.path.join(out_dir, "mean_prob_boxplot_mil.png"), dpi=300)
     plt.close()
 
 if __name__ == "__main__":
     folds = os.environ.get("TEST_OUTPUT_DIR", "")
     folds_root = os.path.join(folds, "saved_models") if folds else "saved_models"
-    analyze_attention_and_prediction_from_saved(folds_dir=folds_root)
+    # optional arguments: fold directory and output directory (e.g. a segment run)
+    import sys
+    if len(sys.argv) > 1:
+        folds_root = sys.argv[1]
+    out = sys.argv[2] if len(sys.argv) > 2 else "figures"
+    analyze_attention_and_prediction_from_saved(folds_dir=folds_root, out_dir=out)
