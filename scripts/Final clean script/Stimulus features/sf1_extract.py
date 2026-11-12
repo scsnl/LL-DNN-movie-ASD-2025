@@ -86,7 +86,7 @@ def extract_movie(name):
     df.to_csv(OUT / f"frames_{name}.csv", index=False)
 
     wav = CACHE / f"audio_{name}.wav"
-    run([ffmpeg_exe(), "-hide_banner", "-y", "-i", str(video), "-vn", "-acodec", "pcm_s16le", str(wav)])
+    run([ffmpeg_exe(), "-hide_banner", "-y", "-i", str(video), "-vn", "-ac", "1", "-acodec", "pcm_s16le", str(wav)])
     return {"source_fps": src_fps, "time_shift_sec": shift, "n_frames_requested": n_frames,
             "n_frames_extracted": int(len(df)),
             "max_abs_time_error_sec": float(df.abs_time_error_sec.max()),

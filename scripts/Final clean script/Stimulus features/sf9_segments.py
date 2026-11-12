@@ -56,7 +56,8 @@ def segment_tests():
         for label, xv, mv in [("Seg2 vs Seg1+Seg3", x[sub], masks["Segment2"][sub]),
                               ("Seg2 vs rest of movie", x, masks["Segment2"])]:
             r = surrogate_mean_difference(xv, mv, N_SURROGATE, SEED, f"movieDM|{s}|{label}")
-            pooled = np.sqrt((r["sd_in"] ** 2 + r["sd_out"] ** 2) / 2)
+            n1, n2 = r["n_in"], r["n_out"]
+            pooled = np.sqrt(((n1 - 1) * r["sd_in"] ** 2 + (n2 - 1) * r["sd_out"] ** 2) / (n1 + n2 - 2))
             r.update(series=s, kind=KIND[s], contrast=label, cohens_d=r["diff"] / pooled if pooled else np.nan)
             tests.append(r)
     pd.DataFrame(desc).to_csv(TABLES / "segment_descriptives_movieDM.csv", index=False)
