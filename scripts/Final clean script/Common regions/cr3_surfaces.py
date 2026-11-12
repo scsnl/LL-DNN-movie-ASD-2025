@@ -44,6 +44,7 @@ VIEWS = [("left", "lateral"), ("left", "medial"), ("right", "lateral"), ("right"
 FIG.mkdir(parents=True, exist_ok=True)
 cs = pd.read_csv(OUT / "common_regions.csv")
 spec = pd.read_csv(OUT / "event_specific_regions.csv") if (OUT / "event_specific_regions.csv").exists() else None
+evv = pd.read_csv(OUT / "event_values.csv") if (OUT / "event_values.csv").exists() else None
 atlas_img = nib.load(str(ATLAS))
 atlas = np.asarray(atlas_img.dataobj).astype(int)
 fs = datasets.fetch_surf_fsaverage(mesh="fsaverage5")
@@ -165,14 +166,21 @@ def event_maps(film, c):
     tile(fig, gs[0], weighted_img(common_ids, [], w), f"Common regions ({len(common_ids)})")
     save_jpg(fig, FIG / f"surface_common_{film}.jpg", dpi=DPI, bbox_inches="tight", facecolor="white")
     plt.close(fig)
-    events = sorted(ev_spec, key=lambda e: int(e[1:]))
+    # each event panel shows that event's own top 5%: red = common, blue = event-specific
+    ev_top = {}
+    if evv is not None:
+        v = evv[(evv.film == film) & (evv.group == "ASD") & evv.in_top5_ASD.astype(bool)]
+        ev_top = {ev: set(g.brainnetome_id.astype(int)) for ev, g in v.groupby("event")}
+    events = sorted(set(ev_spec) | set(ev_top), key=lambda e: int(e[1:]))
     n = 1 + len(events)
     fig = plt.figure(figsize=(TILE_W * n, ROW_H + 0.6))
     gs = fig.add_gridspec(1, n, wspace=0.02, bottom=0.04, top=0.80, left=0.01, right=0.91)
     fig.text(0.46, 0.985, title, ha="center", va="top", fontsize=13, fontweight="bold")
     tile(fig, gs[0], weighted_img(common_ids, [], w), f"Common ({len(common_ids)})", compact=True)
     for j, ev in enumerate(events, start=1):
-        tile(fig, gs[j], weighted_img(common_ids, ev_spec[ev], w), f"{ev}  (+{len(ev_spec[ev])} specific)",
+        c_in = [i for i in common_ids if i in ev_top.get(ev, set(common_ids))]
+        sp = ev_spec.get(ev, [])
+        tile(fig, gs[j], weighted_img(c_in, sp, w), f"{ev}  ({len(c_in)} common, {len(sp)} specific)",
              compact=True)
     sm = plt.cm.ScalarMappable(cmap="RdBu_r", norm=plt.Normalize(vmin=-VMAX, vmax=VMAX))
     cb = fig.colorbar(sm, cax=fig.add_axes([0.925, 0.3, 0.006, 0.45]))
