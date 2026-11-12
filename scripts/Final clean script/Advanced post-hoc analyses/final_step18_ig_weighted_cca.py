@@ -42,6 +42,7 @@ warnings.filterwarnings("ignore")
 TEST_MODE = os.environ.get("TEST_MODE", "0") == "1"
 TEST_DATA_DIR = os.environ.get("TEST_DATA_DIR", "")
 TEST_OUTPUT_DIR = os.environ.get("TEST_OUTPUT_DIR", "")
+SEG2_ROOT = os.path.join(TEST_OUTPUT_DIR, "seg2") if TEST_OUTPUT_DIR else os.path.join("results", "seg2")
 N_PERM = int(os.environ.get("N_PERM", "5000"))
 N_BOOT = int(os.environ.get("N_BOOT", "5000"))
 MIN_SUBJECTS = 3 if TEST_MODE else 30
@@ -110,8 +111,8 @@ def main():
         {"name": "MovieDM_Seg2", 
          "fmri_file": os.path.join(TEST_DATA_DIR, "combined_asd_td_movieDM_data.pklz") if TEST_DATA_DIR else "combined_asd_td_movieDM_data.pklz",
          "behavior_file": os.path.join(TEST_DATA_DIR, "all subject behavior data.csv") if TEST_DATA_DIR else "all subject behavior data.csv",
-         "ig_root": os.path.join(TEST_OUTPUT_DIR, "saved_models") if TEST_OUTPUT_DIR else "saved_models",
-         "attn_csv": os.path.join(TEST_OUTPUT_DIR, "figures", "attn_significance.csv") if TEST_OUTPUT_DIR else "figures/attn_significance.csv",
+         "ig_root": os.path.join(SEG2_ROOT, "saved_models"),
+         "attn_csv": os.path.join(SEG2_ROOT, "figures", "attn_significance.csv"),
          "tr_start": 0, "tr_end": 9999}
     ]
     

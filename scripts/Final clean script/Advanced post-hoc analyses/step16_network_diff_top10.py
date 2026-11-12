@@ -19,13 +19,14 @@ from pathlib import Path
 TEST_MODE = os.environ.get("TEST_MODE", "0") == "1"
 TEST_DATA_DIR = os.environ.get("TEST_DATA_DIR", "")
 TEST_OUTPUT_DIR = os.environ.get("TEST_OUTPUT_DIR", "")
+SEG2_ROOT = os.path.join(TEST_OUTPUT_DIR, "seg2") if TEST_OUTPUT_DIR else os.path.join("results", "seg2")
 
 OUT_DIR = "network_diff_top10_analysis"; os.makedirs(OUT_DIR, exist_ok=True)
 MAPPING_FILE = os.path.join(os.path.dirname(__file__), "..", "..", "..", "assets", "mapping", "subregion_func_network_Yeo.csv")
 
 NETWORK_NAMES = {1: "VisCent", 2: "VisPeri", 3: "SomMotA", 4: "SomMotB", 5: "DorsAttnA", 6: "DorsAttnB", 7: "SalVentAttnA", 8: "SalVentAttnB", 9: "LimbicB", 10: "LimbicA", 11: "ContC", 12: "ContA", 13: "ContB", 14: "TempPar", 15: "DefaultC", 16: "DefaultA", 17: "DefaultB", 18: "Amyg/Hipp", 19: "Basal Ganglia", 20: "Thalamus"}
 
-CONFIGS = [{"name": "MovieDM_Seg2", "mil_cluster_type": "Low", "global_ig": "ig_roi_outmean.npy", "mil_ig": "ig_roi_milout.npy", "ig_root": os.path.join(TEST_OUTPUT_DIR, "saved_models") if TEST_OUTPUT_DIR else "saved_models", "attn_csv": os.path.join(TEST_OUTPUT_DIR, "figures", "attn_significance.csv") if TEST_OUTPUT_DIR else "figures/attn_significance.csv", "tr_start": 0, "tr_end": 9999, "has_mil": True}]
+CONFIGS = [{"name": "MovieDM_Seg2", "mil_cluster_type": "Low", "global_ig": "ig_roi_outmean.npy", "mil_ig": "ig_roi_milout.npy", "ig_root": os.path.join(SEG2_ROOT, "saved_models"), "attn_csv": os.path.join(SEG2_ROOT, "figures", "attn_significance.csv"), "tr_start": 0, "tr_end": 9999, "has_mil": True}]
 
 def load_mapping():
     if not os.path.exists(MAPPING_FILE): return None

@@ -88,15 +88,11 @@ ln -sfn "$DATA_DIR/combined_asd_td_movieDM_data.pklz" "combined_asd_td_movieDM_d
 ln -sfn "$DATA_DIR/combined_asd_td_movieTP_data.pklz" "combined_asd_td_movieTP_data.pklz"
 ln -sfn "$DATA_DIR/all subject behavior data.csv" "all subject behavior data.csv"
 
-# attention table from step 3, copied where the post-hoc scripts look for it
-mkdir -p "results/seg2/figures" "$OUT_DIR/figures"
-if [[ -f "../figures/attn_significance.csv" ]]; then
-  cp -f "../figures/attn_significance.csv" "results/seg2/figures/attn_significance.csv"
-  cp -f "../figures/attn_significance.csv" "$OUT_DIR/figures/attn_significance.csv"
-fi
 
 # time-filtered training (TEST_MODE runs seg2 only)
 python "supply-step2_timefiltered_train_and_ig.py"
+# Segment 2 attention table (events indexed from segment onset)
+python "../step3 analysis and plot attention weight.py" "$OUT_DIR/seg2/saved_models" "$OUT_DIR/seg2/figures"
 python "supply-step2-1_timefiltered_eval.py"
 
 python "step7_mil_20net_diff_baseline.py"
