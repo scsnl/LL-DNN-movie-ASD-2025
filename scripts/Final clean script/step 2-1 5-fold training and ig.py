@@ -318,7 +318,6 @@ def main():
 
             out_mean, mil_out, attn, feat_mean, attn_feat, frame_logits = best_model(xb, mb)
             fusion_logits = config['alpha'] * out_mean + (1 - config['alpha']) * mil_out
-            pred_class = int(torch.argmax(fusion_logits, dim=1).item())
 
             all_logits.append(fusion_logits.squeeze(0).detach().cpu().numpy())
             all_labels.append(yb_int)
@@ -329,8 +328,8 @@ def main():
             frame_logits_all.append(frame_logits.squeeze(0).detach().cpu().numpy())
 
             if ig_mean and ig_mil:
-                ig_wrapper_mean.set_context(mb, pred_class)
-                ig_wrapper_mil.set_context(mb, pred_class)
+                ig_wrapper_mean.set_context(mb, yb_int)
+                ig_wrapper_mil.set_context(mb, yb_int)
                 attr_mean = ig_mean.attribute(inputs=xb, baselines=torch.zeros_like(xb))
                 attr_mil = ig_mil.attribute(inputs=xb, baselines=torch.zeros_like(xb))
                 attr_out_np = attr_mean.squeeze(0).detach().cpu().numpy()
